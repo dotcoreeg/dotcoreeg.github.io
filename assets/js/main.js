@@ -312,6 +312,14 @@
   if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { arts.forEach(function (a) { a.size(); a.draw(); }); });
   if (!reduce && arts.length) requestAnimationFrame(loop);
 
+  /* ---------------- optional hero video ---------------- */
+  var hv = $('.hx-a2 video');
+  if (hv) {
+    hv.addEventListener('canplay', function () { hv.parentElement.classList.add('has-video'); hv.play && hv.play().catch(function () {}); });
+    hv.addEventListener('error', function () { hv.parentElement.classList.remove('has-video'); hv.remove(); });
+    if (reduce) { hv.removeAttribute('autoplay'); hv.pause && hv.pause(); }
+  }
+
   /* ---------------- testimonial slider ---------------- */
   var track = $('#slides');
   if (track) {
