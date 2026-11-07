@@ -1,25 +1,30 @@
 # DOT CORE — Corporate Website
 
-Static site (HTML + CSS + vanilla JS). No build step.
+Static site (HTML + CSS + vanilla JS). No build step. Live: https://dotcoreeg.github.io/
 
-Live: https://dotcoreeg.github.io/
-
-## Structure
-- `index.html` — single-page corporate site
+## Files
+- `index.html`, `privacy.html`, `404.html`
 - `assets/css/style.css`, `assets/js/main.js`
-- `favicon.svg`, `404.html`, `.nojekyll`
+- `favicon.svg`, `robots.txt`, `sitemap.xml`, `.nojekyll`
 
 ## Deploy (GitHub Pages)
 1. Create a public repository named exactly `dotcoreeg.github.io` under the `dotcoreeg` account.
-2. Push these files to the `main` branch root.
-3. Settings → Pages → Source: Deploy from a branch → `main` / `/ (root)`.
-4. Site goes live at https://dotcoreeg.github.io/ within a minute or two.
+2. Upload the CONTENTS of this folder to the `main` branch root (include the hidden `.nojekyll`).
+3. Settings -> Pages -> Deploy from a branch -> `main` / `/ (root)`.
 
-## Content rules
-Only state what DOT CORE actually does today. Add portfolio and case studies only when real, approved projects exist.
+## Contact form
+GitHub Pages has no server. Until a form endpoint is set, the form opens the visitor's email app with the message prefilled.
+To receive submissions directly: create a free form at formspree.io (or similar) that forwards to dot.core.eg@gmail.com, then paste its URL into `FORM_ENDPOINT` at the top of `assets/js/main.js`.
 
-## Placeholders to replace before going public
-Search `index.html` for `data-placeholder` (8 blocks):
-- **Projects** (4 cards): title, description, specs, year. Remove the "Sample" tag.
-- **Team** (4 cards): name, role, photo (replace the initials block with an `<img>`). Remove the "Placeholder" tag.
-- **Stats** strip: currently only real facts (4 Cores planned, 1 launching, 5 stages, Cairo). Update as the company grows.
+## Placeholders to replace (search `data-placeholder` in index.html)
+- Selected projects under each Core (4 blocks)
+- Partner logos (8 slots)
+- Team (4 profiles): name, role, photo
+- Testimonials (3 slides)
+Remove the "Sample" / "Placeholder" chips once content is real and approved. Do not publish invented clients, projects or quotes.
+
+## Team photos
+Replace the `<canvas data-ht="person">` inside `.person__ph` with `<img src="assets/img/name.jpg" alt="Full Name">` and add `.person__ph img{width:100%;height:100%;object-fit:cover;filter:grayscale(1)}`.
+
+## Privacy
+`privacy.html` is a plain-language draft. Have it reviewed by a qualified advisor before relying on it.

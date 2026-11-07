@@ -4,9 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DOT CORE — Engineering the Core.</title>
-<meta name="description" content="DOT CORE is an engineering and technology company from Cairo, Egypt. We start with PCB design and electronics engineering, and grow through specialized Cores.">
-<meta name="theme-color" content="#0a0a0a">
+<meta name="description" content="DOT CORE is an engineering and technology company based in Cairo, Egypt. PCB design and electronics engineering first, growing through specialized Cores: Embedded, Robotics and Automation.">
+<meta name="theme-color" content="#fafaf8">
+<link rel="canonical" href="https://dotcoreeg.github.io/">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="DOT CORE">
 <meta property="og:title" content="DOT CORE — Engineering the Core.">
 <meta property="og:description" content="Engineering and technology company from Cairo, Egypt. PCB design and electronics engineering first, more Cores to follow.">
 <meta property="og:url" content="https://dotcoreeg.github.io/">
@@ -16,6 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<script>try{var t=localStorage.getItem('dc-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"DOT CORE","slogan":"Engineering the Core.","url":"https://dotcoreeg.github.io/","email":"dot.core.eg@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Nasr City, Cairo","addressCountry":"EG"},"sameAs":["https://github.com/dotcoreeg"]}
 </script>
@@ -24,21 +27,22 @@
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
-  <div class="wrap nav__in">
-    <a class="brand" href="#top" aria-label="DOT CORE home">
-      <span class="brand__dot" aria-hidden="true"></span><span class="brand__name">DOT CORE</span>
-    </a>
-    <nav class="nav__links" id="navLinks" aria-label="Primary">
-      <a href="#about">About</a>
-      <a href="#cores">Cores</a>
-      <a href="#projects">Projects</a>
-      <a href="#process">Process</a>
-      <a href="#team">Team</a>
-      <a href="#faq">FAQ</a>
-    </nav>
-    <button class="theme" id="theme" type="button" aria-label="Switch to light theme"><span aria-hidden="true"></span></button>
-    <a class="btn btn--sm nav__cta" href="#contact">Start a project</a>
-    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
+  <div class="nav__c nav__brand">
+    <a class="brand" href="#top" aria-label="DOT CORE home"><span class="brand__dot" aria-hidden="true"></span>DOT CORE</a>
+    <span class="nav__time"><time data-tz="Africa/Cairo">--:--</time> CAI</span>
+  </div>
+  <div class="nav__c nav__gap" aria-hidden="true"></div>
+  <nav class="nav__c nav__links" id="navLinks" aria-label="Primary">
+    <a href="#about">About</a>
+    <a href="#cores">Cores</a>
+    <a href="#partners">Partners</a>
+    <a href="#team">Team</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <div class="nav__c nav__end">
+    <button class="theme" id="theme" type="button" aria-label="Switch to dark theme"><i></i></button>
+    <a class="nav__contact" href="#contact">Contact <b aria-hidden="true">↗</b></a>
+    <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
   </div>
 </header>
 
@@ -46,277 +50,275 @@
 
 <!-- HERO -->
 <section class="hero" id="top">
-  <svg class="traces" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round">
-      <path class="tr" d="M0 520 H210 L270 460 H520 L580 400 H820 L880 340 H1200"/>
-      <path class="tr" d="M0 600 H340 L400 540 H700 L760 480 H1000 L1060 420 H1200"/>
-      <path class="tr" d="M120 0 V150 L180 210 V330 L240 390 V700"/>
-      <path class="tr" d="M900 0 V120 L960 180 H1200"/>
-      <path class="tr" d="M0 240 H160 L220 180 H430 L490 120 H640 L700 60 V0"/>
-    </g>
-    <g fill="#0a0a0a" stroke="currentColor" stroke-width="1.2">
-      <circle cx="210" cy="520" r="5"/><circle cx="820" cy="400" r="5"/><circle cx="340" cy="600" r="5"/>
-      <circle cx="1000" cy="480" r="5"/><circle cx="120" cy="150" r="5"/><circle cx="900" cy="120" r="5"/><circle cx="430" cy="180" r="5"/>
-    </g>
-  </svg>
-  <div class="wrap hero__in">
-    <p class="label reveal">Engineering &amp; Technology · Cairo, Egypt</p>
-    <h1 class="hero__title reveal">Engineering<br>the Core<span class="hero__dot">.</span></h1>
-    <p class="hero__lead reveal">DOT CORE is an engineering and technology company. We start with PCB design and electronics engineering, and grow through specialized Cores — each one built on a standard we can document and defend.</p>
-    <div class="hero__cta reveal">
-      <a class="btn" href="#contact">Start a project</a>
-      <a class="btn btn--ghost" href="#cores">Explore our Cores</a>
+  <div class="frame">
+    <div class="c h-a between">
+      <p class="mono label">Engineering &amp; Technology — Cairo, Egypt</p>
+      <h1 class="display"><span class="mask"><span>Engineering</span></span></h1>
     </div>
-  </div>
-  <div class="wrap hero__meta reveal">
-    <span>PCB Design</span><span>Embedded Systems</span><span>Robotics</span><span>Automation</span>
-    <em>Core units, launched in order of readiness</em>
+    <div class="c art h-art" aria-hidden="true"><canvas data-ht="field" data-step="9" data-seed="2"></canvas></div>
+
+    <div class="c inv h-c1 between">
+      <p class="hero__sub">Hardware designed to be manufactured, tested and maintained. Standards we can document and defend.</p>
+      <a class="cta-link" href="#contact">Start a project <b aria-hidden="true">↗</b></a>
+    </div>
+    <div class="c tint between h-b2">
+      <p class="hero__sub">DOT CORE is an engineering and technology company. We begin with PCB design and electronics engineering, and grow through specialized Cores.</p>
+      <a class="cta-link" href="#cores">Explore the Cores <b aria-hidden="true">↗</b></a>
+    </div>
+    <div class="c ticker h-b3" aria-label="Our Cores">
+      <p class="mono label">Our Cores</p>
+      <div class="ticker__row" aria-hidden="true">
+        <span>PCB</span><span>Embedded</span><span>Robotics</span><span>Automation</span>
+        <span>PCB</span><span>Embedded</span><span>Robotics</span><span>Automation</span>
+        <span>PCB</span><span>Embedded</span><span>Robotics</span><span>Automation</span>
+        <span>PCB</span><span>Embedded</span><span>Robotics</span><span>Automation</span>
+      </div>
+    </div>
+
+    <div class="c h-c1"><div class="scrollcue"><p class="mono mute">Scroll<br>30.05°N 31.34°E</p><i aria-hidden="true"></i></div></div>
+    <div class="c tint h-c2"><p class="display"><span class="mask"><span>the Core.</span></span></p></div>
   </div>
 </section>
-
-
-<!-- MARQUEE -->
-<div class="marquee" aria-label="Our Cores">
-  <div class="marquee__track">
-    <span>PCB Core</span><i></i><span>Embedded Core</span><i></i><span>Robotics Core</span><i></i><span>Automation Core</span><i></i>
-    <span aria-hidden="true">PCB Core</span><i></i><span aria-hidden="true">Embedded Core</span><i></i><span aria-hidden="true">Robotics Core</span><i></i><span aria-hidden="true">Automation Core</span><i></i>
-  </div>
-</div>
 
 <!-- STATS -->
-<section class="stats">
-  <div class="wrap stats__in">
-    <div class="reveal"><b>04</b><span>Cores in the roadmap</span></div>
-    <div class="reveal"><b>01</b><span>Core launching first</span></div>
-    <div class="reveal"><b>05</b><span>Review-gated project stages</span></div>
-    <div class="reveal"><b>EG</b><span>Based in Cairo, Egypt</span></div>
+<section aria-label="DOT CORE at a glance">
+  <div class="frame">
+    <div class="c stat"><p class="mono label">Cores in the roadmap</p><p class="num" data-count="4" data-pad="2">04</p></div>
+    <div class="c stat tint"><p class="mono label">Core launching first</p><p class="num" data-count="1" data-pad="2">01</p></div>
+    <div class="c stat"><p class="mono label">Capabilities in PCB Core</p><p class="num" data-count="6" data-pad="2">06</p></div>
+    <div class="c stat inv"><p class="mono label">Review-gated project stages</p><p class="num" data-count="5" data-pad="2">05</p></div>
   </div>
 </section>
 
-<!-- STATEMENT -->
-<section class="section statement" id="about">
-  <div class="wrap">
-    <p class="label reveal">Who we are</p>
-    <p class="statement__text reveal">We design hardware that is meant to be <b>manufactured</b>, <b>tested</b> and <b>maintained</b> — not just hardware that looks right on a screen. Engineering first. Manufacturing second.</p>
+<!-- ABOUT -->
+<section id="about">
+  <div class="frame">
+    <div class="c s2 head-c"><p class="mono label rv">01 — About</p><h2 class="title"><span class="mask"><span>About</span></span></h2></div>
+    <div class="c s2 statement tint">
+      <p class="mono label rv">Who we are</p>
+      <p class="big rv">We design hardware that is built to be <em>manufactured, tested and maintained</em> — not only hardware that looks right on a screen. Engineering first. Manufacturing second.</p>
+    </div>
+    <div class="c s2 mv"><p class="mono label rv">Mission</p><p class="lead rv">To deliver electronics and technology that can be built, verified and supported — and to make that standard reachable for students, researchers and startups.</p></div>
+    <div class="c s2 mv inv"><p class="mono label rv">Vision</p><p class="lead rv">An internationally credible engineering company from Cairo, growing one specialized Core at a time, each held to a documented standard.</p></div>
+    <div class="c pr"><span class="mono">A</span><div><h3>Engineering first, manufacturing second</h3><p>A design is judged by whether it works and can be built. Production follows engineering, never the reverse.</p></div></div>
+    <div class="c pr"><span class="mono">B</span><div><h3>Honest about limits</h3><p>We state what we can deliver and what we cannot. If a project needs a partner, we say so up front.</p></div></div>
+    <div class="c pr"><span class="mono">C</span><div><h3>Documented and reviewable</h3><p>Decisions, revisions and test results are written down so another engineer can continue the work.</p></div></div>
+    <div class="c pr"><span class="mono">D</span><div><h3>Your intellectual property</h3><p>Your design is yours. Ownership and confidentiality are agreed in writing before work starts.</p></div></div>
   </div>
 </section>
 
 <!-- CORES -->
-<section class="section" id="cores">
-  <div class="wrap">
-    <div class="head">
-      <p class="label reveal">Structure</p>
-      <h2 class="reveal">One company.<br>Specialized Cores.</h2>
-      <p class="head__lead reveal">Each Core is a focused engineering unit with its own scope and standards. We open a new Core only when the one before it is running reliably.</p>
-    </div>
-    <div class="rows">
-      <article class="row reveal">
-        <span class="row__n">01</span>
-        <div class="row__t"><h3>PCB Core</h3><span class="tag tag--on">Launching</span></div>
-        <div class="row__b"><p>From idea to PCB. From prototype to production. Schematic and PCB design with design-for-manufacture and design-for-test built in from the first review.</p>
-        <ul><li>Schematic design</li><li>PCB layout, single-layer to multilayer</li><li>DFM &amp; DFT checks</li><li>BOM optimization</li><li>Debugging &amp; validation</li></ul></div>
-      </article>
-      <article class="row reveal">
-        <span class="row__n">02</span>
-        <div class="row__t"><h3>Embedded Core</h3><span class="tag">Planned</span></div>
-        <div class="row__b"><p>Firmware and embedded system development for the hardware designed in PCB Core.</p>
-        <ul><li>Firmware development</li><li>Board bring-up</li><li>Hardware-software integration</li></ul></div>
-      </article>
-      <article class="row reveal">
-        <span class="row__n">03</span>
-        <div class="row__t"><h3>Robotics Core</h3><span class="tag">Planned</span></div>
-        <div class="row__b"><p>Robotic systems that combine mechanics, electronics and software into one working product.</p>
-        <ul><li>Mechatronic system design</li><li>Control and sensing</li><li>Prototype to pilot</li></ul></div>
-      </article>
-      <article class="row reveal">
-        <span class="row__n">04</span>
-        <div class="row__t"><h3>Automation Core</h3><span class="tag">Planned</span></div>
-        <div class="row__b"><p>Industrial control and automation solutions for factories and workshops.</p>
-        <ul><li>Control panels and logic</li><li>Process automation</li><li>Monitoring and maintenance</li></ul></div>
-      </article>
-    </div>
+<section id="cores">
+  <div class="frame">
+    <div class="c s2 head-c"><p class="mono label rv">02 — Structure</p><h2 class="title"><span class="mask"><span>Cores</span></span></h2></div>
+    <div class="c s2 head-c tint"><p class="mono label rv">One company. Specialized Cores.</p><p class="lead rv">Each Core is a focused engineering unit with its own scope, process and quality gates. A new Core opens only when the one before it runs reliably.</p></div>
   </div>
-</section>
 
-<!-- CAPABILITIES -->
-<section class="section section--alt" id="capabilities">
-  <div class="wrap">
-    <div class="head">
-      <p class="label reveal">PCB Core</p>
-      <h2 class="reveal">What we deliver</h2>
-      <p class="head__lead reveal">The first Core covers the full electronics design path, so a customer can arrive with an idea and leave with files that a factory can build.</p>
-    </div>
-    <div class="grid">
-      <div class="cell reveal"><span class="idx">01</span><h3>Schematic design</h3><p>Circuit design, component selection and hardware architecture documented for review.</p></div>
-      <div class="cell reveal"><span class="idx">02</span><h3>PCB layout</h3><p>Single-layer to multilayer boards with attention to signal integrity, power and thermal behavior.</p></div>
-      <div class="cell reveal"><span class="idx">03</span><h3>DFM &amp; DFT</h3><p>Design checks against manufacturing and testing constraints before files are released.</p></div>
-      <div class="cell reveal"><span class="idx">04</span><h3>BOM optimization</h3><p>Cost, availability and alternates reviewed so the design stays buildable.</p></div>
-      <div class="cell reveal"><span class="idx">05</span><h3>Prototyping</h3><p>Prototype preparation and assembly coordination, scoped per project.</p></div>
-      <div class="cell reveal"><span class="idx">06</span><h3>Debugging &amp; validation</h3><p>Fault finding on existing boards, plus test plans and reports for new ones.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section class="section" id="projects">
-  <div class="wrap">
-    <div class="head">
-      <p class="label reveal">Selected work</p>
-      <h2 class="reveal">Projects</h2>
-      <p class="head__lead reveal">Flagship projects by Core. The entries below are sample placeholders and will be replaced with real, client-approved work.</p>
-    </div>
-    <div class="projects">
-      <article class="proj reveal" data-placeholder>
-        <div class="proj__img"><span>PCB</span></div>
-        <div class="proj__meta"><span class="tag">PCB Core</span><span class="tag tag--sample">Sample</span></div>
-        <h3>Project title goes here</h3>
-        <p>Short description of the board, its constraints and what was delivered. Replace with a real project.</p>
-        <dl><div><dt>Layers</dt><dd>—</dd></div><div><dt>Delivered</dt><dd>—</dd></div><div><dt>Year</dt><dd>—</dd></div></dl>
-      </article>
-      <article class="proj reveal" data-placeholder>
-        <div class="proj__img"><span>EMB</span></div>
-        <div class="proj__meta"><span class="tag">Embedded Core</span><span class="tag tag--sample">Sample</span></div>
-        <h3>Project title goes here</h3>
-        <p>Short description of the firmware or embedded system, and the problem it solved. Replace with a real project.</p>
-        <dl><div><dt>Platform</dt><dd>—</dd></div><div><dt>Delivered</dt><dd>—</dd></div><div><dt>Year</dt><dd>—</dd></div></dl>
-      </article>
-      <article class="proj reveal" data-placeholder>
-        <div class="proj__img"><span>ROB</span></div>
-        <div class="proj__meta"><span class="tag">Robotics Core</span><span class="tag tag--sample">Sample</span></div>
-        <h3>Project title goes here</h3>
-        <p>Short description of the robotic system, its subsystems and results. Replace with a real project.</p>
-        <dl><div><dt>Subsystems</dt><dd>—</dd></div><div><dt>Delivered</dt><dd>—</dd></div><div><dt>Year</dt><dd>—</dd></div></dl>
-      </article>
-      <article class="proj reveal" data-placeholder>
-        <div class="proj__img"><span>AUT</span></div>
-        <div class="proj__meta"><span class="tag">Automation Core</span><span class="tag tag--sample">Sample</span></div>
-        <h3>Project title goes here</h3>
-        <p>Short description of the control or automation solution and the site it runs in. Replace with a real project.</p>
-        <dl><div><dt>Scope</dt><dd>—</dd></div><div><dt>Delivered</dt><dd>—</dd></div><div><dt>Year</dt><dd>—</dd></div></dl>
-      </article>
-    </div>
-  </div>
+  <article class="frame corerow">
+    <div class="c"><span class="n">01</span><h3>PCB Core</h3></div>
+    <div class="c"><span class="chip chip--on" style="align-self:flex-start">Launching</span><p>From idea to PCB. From prototype to production. Schematic and PCB design with design-for-manufacture and design-for-test built in from the first review.</p></div>
+    <div class="c"><p class="mono label">Capabilities</p><ul><li>Schematic design</li><li>PCB layout, single to multilayer</li><li>DFM &amp; DFT checks</li><li>BOM optimization</li><li>Prototyping coordination</li><li>Debugging &amp; validation</li></ul></div>
+    <div class="c" data-placeholder><p class="mono label">Selected projects</p><ul class="proj proj-ph"><li>Project title <span>Year</span></li><li>Project title <span>Year</span></li><li><span class="chip chip--dash">Sample — replace</span></li></ul></div>
+  </article>
+  <article class="frame corerow">
+    <div class="c"><span class="n">02</span><h3>Embedded Core</h3></div>
+    <div class="c"><span class="chip chip--dash" style="align-self:flex-start">Planned</span><p>Firmware and embedded system development for the hardware designed in PCB Core.</p></div>
+    <div class="c"><p class="mono label">Scope</p><ul><li>Firmware development</li><li>Board bring-up</li><li>Hardware–software integration</li><li>Test firmware</li></ul></div>
+    <div class="c" data-placeholder><p class="mono label">Selected projects</p><ul class="proj proj-ph"><li>Project title <span>Year</span></li><li><span class="chip chip--dash">Sample — replace</span></li></ul></div>
+  </article>
+  <article class="frame corerow">
+    <div class="c"><span class="n">03</span><h3>Robotics Core</h3></div>
+    <div class="c"><span class="chip chip--dash" style="align-self:flex-start">Planned</span><p>Robotic systems that combine mechanics, electronics and software into one working product.</p></div>
+    <div class="c"><p class="mono label">Scope</p><ul><li>Mechatronic design</li><li>Motion control &amp; sensing</li><li>Prototype to pilot</li><li>Integration &amp; testing</li></ul></div>
+    <div class="c" data-placeholder><p class="mono label">Selected projects</p><ul class="proj proj-ph"><li>Project title <span>Year</span></li><li><span class="chip chip--dash">Sample — replace</span></li></ul></div>
+  </article>
+  <article class="frame corerow">
+    <div class="c"><span class="n">04</span><h3>Automation Core</h3></div>
+    <div class="c"><span class="chip chip--dash" style="align-self:flex-start">Planned</span><p>Industrial control and automation solutions for factories and workshops.</p></div>
+    <div class="c"><p class="mono label">Scope</p><ul><li>Control panels &amp; logic</li><li>Process automation</li><li>Monitoring &amp; maintenance</li><li>Retrofit of legacy equipment</li></ul></div>
+    <div class="c" data-placeholder><p class="mono label">Selected projects</p><ul class="proj proj-ph"><li>Project title <span>Year</span></li><li><span class="chip chip--dash">Sample — replace</span></li></ul></div>
+  </article>
 </section>
 
 <!-- PROCESS -->
-<section class="section" id="process">
-  <div class="wrap">
-    <div class="head">
-      <p class="label reveal">Process</p>
-      <h2 class="reveal">Every project follows<br>the same path</h2>
-      <p class="head__lead reveal">A repeatable process is what makes results repeatable. Each stage ends with a review before the next one begins.</p>
+<section id="process">
+  <div class="frame">
+    <div class="c s2 head-c"><p class="mono label rv">03 — Method</p><h2 class="title"><span class="mask"><span>Process</span></span></h2></div>
+    <div class="c s2 head-c tint"><p class="mono label rv">Every project, the same path</p><p class="lead rv">A repeatable process makes results repeatable. Each stage ends with a review before the next one begins.</p></div>
+  </div>
+  <div class="frame step"><div class="c"><span class="mono">01</span></div><div class="c"><h3>Requirements</h3></div><div class="c s2"><p>We define what the board must do, its limits, and how success will be checked.</p></div></div>
+  <div class="frame step"><div class="c"><span class="mono">02</span></div><div class="c"><h3>Feasibility &amp; architecture</h3></div><div class="c s2"><p>Technical risks, component choices and cost are assessed before a proposal is issued.</p></div></div>
+  <div class="frame step"><div class="c"><span class="mono">03</span></div><div class="c"><h3>Design &amp; review</h3></div><div class="c s2"><p>Schematic and layout are built and reviewed against a checklist, not by eye alone.</p></div></div>
+  <div class="frame step"><div class="c"><span class="mono">04</span></div><div class="c"><h3>Verification</h3></div><div class="c s2"><p>Design rules, manufacturing checks and a test plan confirm the design is ready.</p></div></div>
+  <div class="frame step"><div class="c"><span class="mono">05</span></div><div class="c"><h3>Handover</h3></div><div class="c s2"><p>Production files, BOM and documentation are delivered with a clear revision history.</p></div></div>
+</section>
+
+<!-- SUPPORT -->
+<section id="support" class="support">
+  <div class="frame">
+    <div class="c s2 inv head-c"><p class="mono label rv">04 — Students, researchers &amp; startups</p><h2 class="big rv">Good ideas should not stop at the budget.</h2></div>
+    <div class="c s2 head-c tint">
+      <p class="lead rv">DOT CORE is planning a support program for students, researchers and early-stage teams, including scholarships that cover part or all of the engineering cost of qualifying projects.</p>
+      <p class="mute rv">Applications will be reviewed on financial need, quality of the idea, technical requirements and the team's capability. Details and application windows will be published here before the first intake.</p>
+      <a class="cta-link" href="mailto:dot.core.eg@gmail.com?subject=Student%20or%20Scholarship%20Inquiry">Ask about the program <b aria-hidden="true">↗</b></a>
     </div>
-    <ol class="steps">
-      <li class="step reveal"><span class="step__n">01</span><div><h3>Requirements</h3><p>We define what the board must do, its limits, and how success will be checked.</p></div></li>
-      <li class="step reveal"><span class="step__n">02</span><div><h3>Feasibility &amp; architecture</h3><p>Technical risks, component choices and cost are assessed before a proposal is issued.</p></div></li>
-      <li class="step reveal"><span class="step__n">03</span><div><h3>Design &amp; review</h3><p>Schematic and layout are built and reviewed against a checklist, not by eye alone.</p></div></li>
-      <li class="step reveal"><span class="step__n">04</span><div><h3>Verification</h3><p>Design rules, manufacturing checks and a test plan confirm the design is ready.</p></div></li>
-      <li class="step reveal"><span class="step__n">05</span><div><h3>Handover</h3><p>Production files, BOM and documentation are delivered with a clear revision history.</p></div></li>
-    </ol>
   </div>
 </section>
 
-<!-- PRINCIPLES -->
-<section class="section section--alt" id="principles">
-  <div class="wrap">
-    <div class="head">
-      <p class="label reveal">Principles</p>
-      <h2 class="reveal">How we work</h2>
-    </div>
-    <div class="grid grid--2">
-      <div class="cell reveal"><h3>Engineering first, manufacturing second</h3><p>A design is judged by whether it works and can be built. Production decisions follow from the engineering, never the reverse.</p></div>
-      <div class="cell reveal"><h3>Honest about limits</h3><p>We state what we can deliver and what we cannot. If a project needs a partner or a capability we do not have, we say so up front.</p></div>
-      <div class="cell reveal"><h3>Documented and reviewable</h3><p>Decisions, revisions and test results are written down so another engineer can pick the work up without guessing.</p></div>
-      <div class="cell reveal"><h3>Respect for your intellectual property</h3><p>Your design is yours. Terms around ownership and confidentiality are agreed in writing before work starts.</p></div>
+<!-- PARTNERS -->
+<section id="partners">
+  <div class="frame">
+    <div class="c s2 head-c"><p class="mono label rv">05 — Ecosystem</p><h2 class="title"><span class="mask"><span>Partners</span></span></h2></div>
+    <div class="c s2 head-c tint"><p class="mono label rv">Agreements, relationships &amp; events</p><p class="lead rv">Manufacturing partners, universities and industry events — listed here as each agreement or participation is confirmed.</p></div>
+  </div>
+  <div class="frame logos" data-placeholder>
+    <div class="c logo"><b>Partner logo</b><span class="chip chip--dash">Sample</span></div>
+    <div class="c logo"><b>Partner logo</b><span class="chip chip--dash">Sample</span></div>
+    <div class="c logo"><b>Partner logo</b><span class="chip chip--dash">Sample</span></div>
+    <div class="c logo"><b>Partner logo</b><span class="chip chip--dash">Sample</span></div>
+    <div class="c logo"><b>Partner logo</b><span class="chip chip--dash">Sample</span></div>
+    <div class="c logo"><b>Partner logo</b><span class="chip chip--dash">Sample</span></div>
+    <div class="c logo"><b>Partner logo</b><span class="chip chip--dash">Sample</span></div>
+    <div class="c logo"><b>Partner logo</b><span class="chip chip--dash">Sample</span></div>
+  </div>
+  <div class="frame">
+    <div class="c s2 between"><p class="mono label">Partnership tracks</p><p class="lead">How we build the ecosystem around each Core: with the people who fabricate, teach, supply and convene.</p></div>
+    <div class="c s2 list-c list">
+      <div class="li"><h3>Manufacturing</h3><span class="mono">Fabrication &amp; assembly</span></div>
+      <div class="li"><h3>Universities &amp; research</h3><span class="mono">Education</span></div>
+      <div class="li"><h3>Component supply</h3><span class="mono">Distribution</span></div>
+      <div class="li"><h3>Conferences &amp; events</h3><span class="mono">Community</span></div>
     </div>
   </div>
 </section>
 
 <!-- TEAM -->
-<section class="section section--alt" id="team">
-  <div class="wrap">
-    <div class="head">
-      <p class="label reveal">Team</p>
-      <h2 class="reveal">The people behind the Cores</h2>
-      <p class="head__lead reveal">Names, roles and photos below are sample placeholders until the team is confirmed.</p>
-    </div>
-    <div class="team">
-      <article class="person reveal" data-placeholder><div class="person__ph">NN</div><h3>Full Name</h3><p>Founder &amp; CEO</p><span class="tag tag--sample">Placeholder</span></article>
-      <article class="person reveal" data-placeholder><div class="person__ph">NN</div><h3>Full Name</h3><p>PCB Design Lead</p><span class="tag tag--sample">Placeholder</span></article>
-      <article class="person reveal" data-placeholder><div class="person__ph">NN</div><h3>Full Name</h3><p>Embedded Systems Engineer</p><span class="tag tag--sample">Placeholder</span></article>
-      <article class="person reveal" data-placeholder><div class="person__ph">NN</div><h3>Full Name</h3><p>Operations &amp; Client Success</p><span class="tag tag--sample">Placeholder</span></article>
+<section id="team">
+  <div class="frame">
+    <div class="c s2 head-c"><p class="mono label rv">06 — People</p><h2 class="title"><span class="mask"><span>Team</span></span></h2></div>
+    <div class="c s2 head-c tint"><p class="mono label rv">The people behind the Cores</p><p class="lead rv">Engineers accountable for every design they release. Profiles below are placeholders until the team is confirmed.</p></div>
+  </div>
+  <div class="team-wrap">
+    <div class="frame team" data-placeholder>
+      <article class="c person"><div class="person__ph"><canvas data-ht="person" data-step="7" data-seed="1" aria-hidden="true"></canvas><span class="role">Founder &amp; CEO</span></div><div class="person__bar"><div><h3>Full Name</h3><span class="chip chip--dash" style="margin-top:6px">Placeholder</span></div><b aria-hidden="true">↗</b></div></article>
+      <article class="c person"><div class="person__ph"><canvas data-ht="person" data-step="7" data-seed="2" aria-hidden="true"></canvas><span class="role">PCB Design Lead</span></div><div class="person__bar"><div><h3>Full Name</h3><span class="chip chip--dash" style="margin-top:6px">Placeholder</span></div><b aria-hidden="true">↗</b></div></article>
+      <article class="c person"><div class="person__ph"><canvas data-ht="person" data-step="7" data-seed="3" aria-hidden="true"></canvas><span class="role">Embedded Engineer</span></div><div class="person__bar"><div><h3>Full Name</h3><span class="chip chip--dash" style="margin-top:6px">Placeholder</span></div><b aria-hidden="true">↗</b></div></article>
+      <article class="c person"><div class="person__ph"><canvas data-ht="person" data-step="7" data-seed="4" aria-hidden="true"></canvas><span class="role">Operations</span></div><div class="person__bar"><div><h3>Full Name</h3><span class="chip chip--dash" style="margin-top:6px">Placeholder</span></div><b aria-hidden="true">↗</b></div></article>
     </div>
   </div>
 </section>
 
-<!-- SUPPORT -->
-<section class="section" id="support">
-  <div class="wrap support">
-    <div>
-      <p class="label reveal">Students, researchers &amp; startups</p>
-      <h2 class="reveal">Good ideas should not stop at the budget</h2>
-    </div>
-    <div class="support__body reveal">
-      <p>DOT CORE plans a support program for students, researchers and early-stage teams, including scholarships that cover part or all of the engineering cost for qualifying projects.</p>
-      <p>Applications are reviewed on financial need, quality of the idea, technical requirements and the team's capability. Program details and application windows will be published here before the first intake.</p>
-      <a class="link" href="mailto:dot.core.eg@gmail.com?subject=Student%20or%20Scholarship%20Inquiry">Ask about the program <span aria-hidden="true">→</span></a>
+<!-- VOICES -->
+<section id="voices" aria-roledescription="carousel" aria-label="Client testimonials">
+  <div class="frame">
+    <div class="c s2 head-c"><p class="mono label rv">07 — Testimonials</p><h2 class="title"><span class="mask"><span>Voices</span></span></h2></div>
+    <div class="c s2 head-c tint"><p class="mono label rv">In their words</p><p class="lead rv">Feedback from the teams we work with — published only with permission. Entries below are samples.</p></div>
+    <div class="c s4 slider" data-placeholder>
+      <div class="slides" id="slides">
+        <figure class="slide" role="group" aria-roledescription="slide" aria-label="1 of 3">
+          <blockquote>“Replace this with a real, approved client testimonial about a delivered project.”</blockquote>
+          <figcaption><b>Client Name</b><span class="mono mute">Position — Company</span><span class="chip chip--dash" style="align-self:flex-start">Sample</span></figcaption>
+        </figure>
+        <figure class="slide" role="group" aria-roledescription="slide" aria-label="2 of 3" aria-hidden="true">
+          <blockquote>“A second testimonial goes here. Keep it specific: what was delivered and what changed.”</blockquote>
+          <figcaption><b>Client Name</b><span class="mono mute">Position — Company</span><span class="chip chip--dash" style="align-self:flex-start">Sample</span></figcaption>
+        </figure>
+        <figure class="slide" role="group" aria-roledescription="slide" aria-label="3 of 3" aria-hidden="true">
+          <blockquote>“A third testimonial goes here, from a student, researcher or startup team.”</blockquote>
+          <figcaption><b>Client Name</b><span class="mono mute">Position — Company</span><span class="chip chip--dash" style="align-self:flex-start">Sample</span></figcaption>
+        </figure>
+      </div>
+      <div class="slider__ctl">
+        <span class="mono"><span id="sCur">01</span> / <span id="sTot">03</span></span>
+        <div class="dots" id="dots" role="tablist" aria-label="Choose testimonial"></div>
+        <div class="slider__btns"><button type="button" id="sPrev" aria-label="Previous testimonial">←</button><button type="button" id="sNext" aria-label="Next testimonial">→</button></div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- FAQ -->
-<section class="section section--alt" id="faq">
-  <div class="wrap faq">
-    <div>
-      <p class="label reveal">FAQ</p>
-      <h2 class="reveal">Questions, answered</h2>
-    </div>
-    <div class="faq__list reveal">
-      <details><summary>What is a "Core"?</summary><p>A Core is a specialized engineering unit inside DOT CORE, such as PCB Core. Each has its own scope, process and quality checks. New Cores open when the existing ones are stable.</p></details>
-      <details><summary>Which Core can I work with today?</summary><p>PCB Core is the first Core and is in its launch phase. Send an inquiry and we will confirm availability and scope for your project.</p></details>
-      <details><summary>What will I receive at the end of a project?</summary><p>Depending on scope: schematics, PCB layout files, manufacturing files, a bill of materials and design documentation. Exact deliverables are listed in the proposal.</p></details>
-      <details><summary>Do you manufacture the boards?</summary><p>Our focus is design and engineering. Fabrication and assembly are coordinated per project, and the scope is agreed in the proposal before work begins.</p></details>
-      <details><summary>I already have a board that does not work. Can you help?</summary><p>Yes. Debugging and repair review is a separate request type. Describe the fault and include any schematics or photos you have.</p></details>
-      <details><summary>Do you work with students and startups?</summary><p>Yes. See the support section above, or write to us with a short description of your project.</p></details>
+<section id="faq">
+  <div class="frame">
+    <div class="c s2 head-c"><p class="mono label rv">08 — Questions</p><h2 class="title"><span class="mask"><span>FAQ</span></span></h2></div>
+    <div class="c s2 head-c tint faqc" style="justify-content:flex-start">
+      <div class="faq">
+        <details><summary>What is a "Core"?</summary><p>A Core is a specialized engineering unit inside DOT CORE, such as PCB Core. Each has its own scope, process and quality checks. New Cores open when the existing ones are stable.</p></details>
+        <details><summary>Which Core can I work with today?</summary><p>PCB Core is the first Core and is in its launch phase. Send an inquiry and we will confirm availability and scope for your project.</p></details>
+        <details><summary>What will I receive at the end of a project?</summary><p>Depending on scope: schematics, PCB layout files, manufacturing files, a bill of materials and design documentation. Exact deliverables are listed in the proposal.</p></details>
+        <details><summary>Do you manufacture the boards?</summary><p>Our focus is design and engineering. Fabrication and assembly are coordinated per project, and the scope is agreed in the proposal before work begins.</p></details>
+        <details><summary>I have a board that does not work. Can you help?</summary><p>Yes. Debugging and repair review is a separate request type. Describe the fault and include any schematics or photos you have.</p></details>
+        <details><summary>Do you work with students and startups?</summary><p>Yes. See the support section, or write to us with a short description of your project.</p></details>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section class="section contact" id="contact">
-  <div class="wrap">
-    <p class="label reveal">Contact</p>
-    <h2 class="contact__title reveal">Have a board to design?<br>Tell us what it must do.</h2>
-    <div class="contact__grid">
-      <a class="req reveal" href="mailto:dot.core.eg@gmail.com?subject=Business%20Project%20Inquiry"><span class="idx">01</span><strong>Business project</strong><span>New design for a company</span><span class="arr" aria-hidden="true">→</span></a>
-      <a class="req reveal" href="mailto:dot.core.eg@gmail.com?subject=Student%20Project%20Inquiry"><span class="idx">02</span><strong>Student project</strong><span>Graduation or research work</span><span class="arr" aria-hidden="true">→</span></a>
-      <a class="req reveal" href="mailto:dot.core.eg@gmail.com?subject=Debugging%20or%20Repair%20Request"><span class="idx">03</span><strong>Debugging &amp; repair</strong><span>Existing board with a fault</span><span class="arr" aria-hidden="true">→</span></a>
-      <a class="req reveal" href="mailto:dot.core.eg@gmail.com?subject=Support%20or%20Volunteer"><span class="idx">04</span><strong>Support &amp; volunteering</strong><span>Join or help the mission</span><span class="arr" aria-hidden="true">→</span></a>
+<section id="contact">
+  <div class="cta">
+    <canvas data-ht="field" data-step="12" data-seed="5" aria-hidden="true"></canvas>
+    <p class="mono label" style="position:absolute;top:var(--pad);left:var(--pad);background:var(--bg);padding:6px 8px">09 — Contact</p>
+    <h2 class="cta__words" aria-label="Let's start a project">
+      <span class="rv" aria-hidden="true">Let's</span>
+      <span class="rv row2" aria-hidden="true">start a</span>
+      <span class="dk rv" aria-hidden="true">project</span>
+    </h2>
+  </div>
+  <div class="frame">
+    <div class="c s2">
+      <p class="mono label">Project inquiry</p>
+      <form id="form" novalidate>
+        <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="f-org">Company / university</label><input id="f-org" name="organization" autocomplete="organization"></div>
+        <div class="field"><label for="f-type">Request type</label>
+          <select id="f-type" name="type">
+            <option>Business project</option><option>Student project</option><option>Scholarship application</option><option>Debugging &amp; repair</option><option>Support &amp; volunteering</option>
+          </select></div>
+        <div class="field full"><label for="f-msg">What must the board do?</label><textarea id="f-msg" name="message" required></textarea></div>
+        <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <button class="submit" id="submit" type="submit"><span>Send inquiry</span><b aria-hidden="true">↗</b></button>
+      </form>
     </div>
-    <p class="contact__mail reveal">Or write directly: <a href="mailto:dot.core.eg@gmail.com">dot.core.eg@gmail.com</a></p>
+    <div class="c info">
+      <dl>
+        <dt>Email</dt><dd><a href="mailto:dot.core.eg@gmail.com">dot.core.eg@gmail.com</a></dd>
+        <dt>Studio</dt><dd>Nasr City, Cairo, Egypt</dd>
+        <dt>Working hours</dt><dd>Sun–Thu · Cairo time</dd>
+      </dl>
+    </div>
+    <div class="c inv between">
+      <p class="lead">Include requirements, constraints and any existing schematics or photos. We confirm scope before any work begins.</p>
+      <a class="cta-link" href="https://github.com/dotcoreeg" rel="noopener">GitHub <b aria-hidden="true">↗</b></a>
+    </div>
   </div>
 </section>
 
 </main>
 
 <footer class="foot">
-  <div class="wrap foot__in">
-    <div>
-      <a class="brand" href="#top"><span class="brand__dot" aria-hidden="true"></span><span class="brand__name">DOT CORE</span></a>
-      <p class="foot__tag">Engineering the Core.</p>
-    </div>
-    <div class="foot__col">
-      <span class="label">Location</span>
-      <p>Nasr City, Cairo, Egypt</p>
-    </div>
-    <div class="foot__col">
-      <span class="label">Links</span>
-      <p><a href="https://github.com/dotcoreeg" rel="noopener">GitHub</a></p>
-      <p><a href="mailto:dot.core.eg@gmail.com">Email</a></p>
+  <div class="frame">
+    <div class="c s2 end" style="min-height:clamp(220px,22vw,340px)"><p class="tag">Engineering<br>the Core.</p></div>
+    <nav class="c" aria-label="Footer"><p class="mono label mute">Navigate</p><ul><li><a href="#about">About</a></li><li><a href="#cores">Cores</a></li><li><a href="#process">Process</a></li><li><a href="#partners">Partners</a></li><li><a href="#team">Team</a></li><li><a href="#contact">Contact</a></li></ul></nav>
+    <div class="c"><p class="mono label mute">World clocks</p>
+      <div class="clocks" aria-label="World clocks">
+        <div class="clk"><span>Cairo</span><time data-tz="Africa/Cairo">--:--</time></div>
+        <div class="clk"><span>Riyadh</span><time data-tz="Asia/Riyadh">--:--</time></div>
+        <div class="clk"><span>Dubai</span><time data-tz="Asia/Dubai">--:--</time></div>
+        <div class="clk"><span>London</span><time data-tz="Europe/London">--:--</time></div>
+        <div class="clk"><span>Paris</span><time data-tz="Europe/Paris">--:--</time></div>
+        <div class="clk"><span>Berlin</span><time data-tz="Europe/Berlin">--:--</time></div>
+        <div class="clk"><span>New York</span><time data-tz="America/New_York">--:--</time></div>
+        <div class="clk"><span>Shenzhen</span><time data-tz="Asia/Shanghai">--:--</time></div>
+      </div>
     </div>
   </div>
-  <div class="wrap clocks" aria-label="World clocks"><div class="clk"><span class="clk__c">Cairo</span><time data-tz="Africa/Cairo">--:--</time><span class="clk__d">EG</span></div><div class="clk"><span class="clk__c">Riyadh</span><time data-tz="Asia/Riyadh">--:--</time><span class="clk__d">KSA</span></div><div class="clk"><span class="clk__c">Dubai</span><time data-tz="Asia/Dubai">--:--</time><span class="clk__d">UAE</span></div><div class="clk"><span class="clk__c">London</span><time data-tz="Europe/London">--:--</time><span class="clk__d">UK</span></div><div class="clk"><span class="clk__c">Paris</span><time data-tz="Europe/Paris">--:--</time><span class="clk__d">FR</span></div><div class="clk"><span class="clk__c">Berlin</span><time data-tz="Europe/Berlin">--:--</time><span class="clk__d">DE</span></div><div class="clk"><span class="clk__c">New York</span><time data-tz="America/New_York">--:--</time><span class="clk__d">US</span></div><div class="clk"><span class="clk__c">Shenzhen</span><time data-tz="Asia/Shanghai">--:--</time><span class="clk__d">CN</span></div></div>
-  <div class="wrap foot__base"><span>© <span id="yr">2026</span> DOT CORE. All rights reserved.</span><a href="#top">Back to top ↑</a></div>
+  <div class="foot__base">
+    <span>© <span id="yr">2026</span> DOT CORE. All rights reserved.</span>
+    <div><a href="privacy.html">Privacy policy</a><a href="https://github.com/dotcoreeg" rel="noopener">GitHub</a><a href="mailto:dot.core.eg@gmail.com">Email</a><a href="#top">Back to top ↑</a></div>
+  </div>
 </footer>
 
 <script src="assets/js/main.js" defer></script>
