@@ -21,7 +21,7 @@
     if (t === 'dark') root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
     if (tb) tb.setAttribute('aria-label', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
     if (meta) meta.setAttribute('content', t === 'dark' ? '#0b0b0b' : '#fafaf8');
-    drawAll();
+    readAccent(); drawAll();
   }
   if (tb) {
     tb.addEventListener('click', function () {
@@ -145,6 +145,9 @@
 
   /* ---------------- halftone art (original generative dot-matrix) ---------------- */
   var arts = [];
+  var ACCENT = '#C2703D';
+  function readAccent() { var v = getComputedStyle(root).getPropertyValue('--accent').trim(); if (v) ACCENT = v; }
+  readAccent();
   function Art(cv) {
     var self = this;
     this.cv = cv; this.ctx = cv.getContext('2d');
@@ -165,6 +168,7 @@
     this.w = Math.max(r.width, 1); this.h = Math.max(r.height, 1);
     this.cv.width = Math.round(this.w * dpr); this.cv.height = Math.round(this.h * dpr);
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (this.mode === 'traces') this.build();
   };
   Art.prototype.val = function (x, y) {
     var w = this.w, h = this.h, t = this.t, s = this.seed, nx = x / w, ny = y / h, v;
@@ -195,7 +199,75 @@
     if (md < 120) v += (1 - md / 120) * .5;
     return v;
   };
+
+  /* PCB routing animation: signals converge into the Core */
+  Art.prototype.build = function () {
+    var w = this.w, h = this.h, n = Math.max(6, Math.min(14, Math.round(h / 36)));
+    var cx = w * .5, cy = h * .5, gap = Math.max(5, Math.min(9, h / (n * 3.4)));
+    var cw = Math.min(w * .2, 120), ch = (n - 1) * gap + 30, m = 22;
+    this.chip = { x: cx - cw / 2, y: cy - ch / 2, w: cw, h: ch, n: n, gap: gap };
+    this.paths = [];
+    var seed = this.seed;
+    for (var side = -1; side <= 1; side += 2) {
+      for (var i = 0; i < n; i++) {
+        var sy = h * .09 + h * .82 * i / (n - 1), ty = cy + (i - (n - 1) / 2) * gap;
+        var ex = side < 0 ? this.chip.x : this.chip.x + cw, sx = side < 0 ? 0 : w;
+        var maxDy = (side < 0 ? ex : w - ex) - m - 14, dy = Math.abs(sy - ty);
+        if (dy > maxDy) { sy = ty + (sy > ty ? 1 : -1) * maxDy; dy = maxDy; }
+        var bend = side < 0 ? ex - dy - m : ex + dy + m;
+        var pts = [[sx, sy], [bend, sy], [side < 0 ? ex - m : ex + m, ty], [ex, ty]];
+        if (side > 0) pts.reverse(); // right side: signal leaves the Core
+        var len = 0, cum = [0];
+        for (var k = 1; k < pts.length; k++) { len += Math.hypot(pts[k][0] - pts[k - 1][0], pts[k][1] - pts[k - 1][1]); cum.push(len); }
+        var r1 = Math.abs(Math.sin(seed * 12.9 + i * 78.2 + side * 3.1)) ;
+        this.paths.push({ pts: pts, cum: cum, len: len, phase: r1, speed: 55 + r1 * 70, side: side });
+      }
+    }
+  };
+  Art.prototype.at = function (p, d) {
+    if (d <= 0 || d >= p.len) return null;
+    for (var k = 1; k < p.cum.length; k++) {
+      if (d <= p.cum[k]) {
+        var f = (d - p.cum[k - 1]) / (p.cum[k] - p.cum[k - 1]);
+        return [p.pts[k - 1][0] + (p.pts[k][0] - p.pts[k - 1][0]) * f, p.pts[k - 1][1] + (p.pts[k][1] - p.pts[k - 1][1]) * f];
+      }
+    }
+    return null;
+  };
+  Art.prototype.drawTraces = function () {
+    var ctx = this.ctx, w = this.w, h = this.h, ink = getComputedStyle(this.cv).color, c = this.chip, i, k;
+    ctx.clearRect(0, 0, w, h);
+    // faint board grid
+    ctx.fillStyle = ink; ctx.globalAlpha = .12;
+    for (var gx = 12; gx < w; gx += 24) for (var gy = 12; gy < h; gy += 24) ctx.fillRect(gx, gy, 1.2, 1.2);
+    ctx.globalAlpha = .38; ctx.strokeStyle = ink; ctx.lineWidth = 1; ctx.lineJoin = 'round';
+    ctx.beginPath();
+    this.paths.forEach(function (p) { ctx.moveTo(p.pts[0][0], p.pts[0][1]); for (var k = 1; k < p.pts.length; k++) ctx.lineTo(p.pts[k][0], p.pts[k][1]); });
+    ctx.stroke();
+    // pads at outer ends
+    ctx.globalAlpha = .6;
+    this.paths.forEach(function (p) { var e = p.side < 0 ? p.pts[0] : p.pts[p.pts.length - 1]; ctx.beginPath(); ctx.arc(e[0] + (p.side < 0 ? 4 : -4), e[1], 2.6, 0, 6.2832); ctx.stroke(); });
+    // core package
+    ctx.globalAlpha = 1; ctx.lineWidth = 1.2;
+    ctx.fillStyle = getComputedStyle(this.cv.parentElement).backgroundColor || 'transparent';
+    ctx.fillRect(c.x, c.y, c.w, c.h); ctx.strokeRect(c.x, c.y, c.w, c.h);
+    var rr = Math.min(c.w, c.h) * .3; ctx.beginPath(); ctx.arc(c.x + c.w / 2, c.y + c.h / 2, rr, 0, 6.2832); ctx.stroke();
+    ctx.fillStyle = ACCENT; ctx.beginPath(); ctx.arc(c.x + c.w / 2, c.y + c.h / 2, rr * .38, 0, 6.2832); ctx.fill();
+    // signal pulses
+    if (!reduce) {
+      ctx.fillStyle = ACCENT;
+      for (i = 0; i < this.paths.length; i++) {
+        var p = this.paths[i], head = ((this.t * 1.25 * p.speed / p.len + p.phase) % 1.6) * p.len;
+        for (k = 0; k < 9; k++) {
+          var pt = this.at(p, head - k * 5); if (!pt) continue;
+          ctx.globalAlpha = (1 - k / 9) * .95; ctx.beginPath(); ctx.arc(pt[0], pt[1], 1.9 - k * .1, 0, 6.2832); ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+  };
   Art.prototype.draw = function () {
+    if (this.mode === 'traces') return this.drawTraces();
     var ctx = this.ctx, st = this.step, w = this.w, h = this.h;
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = getComputedStyle(this.cv).color;
@@ -211,6 +283,7 @@
       }
     }
     ctx.fill();
+    if (this.emblem) { ctx.fillStyle = ACCENT; ctx.beginPath(); ctx.arc(w * .5, h * .5, Math.min(w, h) * .34 * .13, 0, 6.2832); ctx.fill(); }
   };
   $$('canvas[data-ht]').forEach(function (cv) { arts.push(new Art(cv)); });
   function drawAll() { arts.forEach(function (a) { a.draw(); }); }

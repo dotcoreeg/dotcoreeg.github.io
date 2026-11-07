@@ -28,3 +28,14 @@ Replace the `<canvas data-ht="person">` inside `.person__ph` with `<img src="ass
 
 ## Privacy
 `privacy.html` is a plain-language draft. Have it reviewed by a qualified advisor before relying on it.
+
+## Accent color (copper = live / active)
+One accent only: `--accent` at the top of `assets/css/style.css` (copper `#C2703D`, `#D4814A` in dark theme).
+Rule: use it only for what is live or active (brand dot, the launching Core, signal pulses, active slide, focus). Everything else stays monochrome. Change the hex in one place to change it everywhere.
+
+## Hero animation and real video
+The large hero cell animates PCB traces converging into the Core, with copper signal pulses (generated, no assets).
+To use real footage: export a 10-15 s muted loop of your own bench (layout on screen, board under magnification, soldering, oscilloscope), 720p, under 3 MB, save as `assets/video/bench.mp4`, then uncomment the `<video>` line inside `.hx-a2` in `index.html`.
+
+## Team
+Leadership = Founder & CEO + one head per Core (PCB, Embedded, Robotics, Automation). Replace names, roles and photos; unannounced Cores can keep "Placeholder" until the lead is confirmed.
