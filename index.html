@@ -41,52 +41,67 @@
   </nav>
   <div class="nav__c nav__end">
     <button class="theme" id="theme" type="button" aria-label="Switch to dark theme"><i></i></button>
-    <a class="nav__contact" href="#contact">Contact <b aria-hidden="true">↗</b></a>
+    <button class="nav__contact" id="openDrawer" type="button" aria-haspopup="dialog" aria-controls="drawer">Contact <b aria-hidden="true">↗</b></button>
     <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
   </div>
 </header>
+
+<!-- CONTACT DRAWER -->
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer dark" id="drawer" role="dialog" aria-modal="true" aria-label="Contact DOT CORE" aria-hidden="true">
+  <div class="drawer__top"><span class="mono">Contact</span><button type="button" id="closeDrawer" aria-label="Close contact panel">✕</button></div>
+  <div class="drawer__body">
+    <p class="big">Tell us what the board must do.</p>
+    <div class="drawer__row"><span class="mono mute">Email</span><a href="mailto:dot.core.eg@gmail.com">dot.core.eg@gmail.com</a><button type="button" class="copy" data-copy="dot.core.eg@gmail.com">Copy</button></div>
+    <div class="drawer__row"><span class="mono mute">Studio</span><span>Nasr City, Cairo, Egypt</span></div>
+    <div class="drawer__row"><span class="mono mute">GitHub</span><a href="https://github.com/dotcoreeg" rel="noopener">github.com/dotcoreeg</a></div>
+    <a class="drawer__go" href="#contact" id="drawerGo">Open the inquiry form <b aria-hidden="true">↗</b></a>
+  </div>
+</aside>
 
 <main id="main">
 
 <!-- HERO -->
 <section class="hero" id="top">
   <div class="frame">
-    <div class="c h-a between">
+    <div class="c hx-1 between">
       <p class="mono label">Engineering &amp; Technology — Cairo, Egypt</p>
       <h1 class="display"><span class="mask"><span>Engineering</span></span></h1>
     </div>
-    <div class="c art h-art" aria-hidden="true"><canvas data-ht="field" data-step="9" data-seed="2"></canvas></div>
+    <div class="c art hx-a1" aria-hidden="true"><canvas data-ht="field" data-step="6" data-seed="2" data-emblem="1"></canvas></div>
 
-    <div class="c inv h-c1 between">
-      <p class="hero__sub">Hardware designed to be manufactured, tested and maintained. Standards we can document and defend.</p>
+    <div class="c art hx-a2" aria-hidden="true"><canvas data-ht="field" data-step="6" data-seed="7"></canvas></div>
+    <div class="c inv hx-b1 between">
+      <p class="hero__sub">Hardware designed to be manufactured, tested and maintained. Engineering first, manufacturing second.</p>
       <a class="cta-link" href="#contact">Start a project <b aria-hidden="true">↗</b></a>
     </div>
-    <div class="c tint between h-b2">
-      <p class="hero__sub">DOT CORE is an engineering and technology company. We begin with PCB design and electronics engineering, and grow through specialized Cores.</p>
+    <div class="c tint hx-b2 between">
+      <div>
+        <p class="hero__sub">DOT CORE is an engineering and technology company. We begin with PCB design and electronics engineering, and grow through specialized Cores.</p>
+        <p class="mono mute" style="margin-top:14px">Our Cores:</p>
+      </div>
+      <div class="ticker" aria-label="PCB, Embedded, Robotics, Automation">
+        <div class="ticker__row" aria-hidden="true">
+          <span>PCB</span><span>Embedded</span><span>Robotics</span><span>Automation</span>
+          <span>PCB</span><span>Embedded</span><span>Robotics</span><span>Automation</span>
+          <span>PCB</span><span>Embedded</span><span>Robotics</span><span>Automation</span>
+        </div>
+      </div>
       <a class="cta-link" href="#cores">Explore the Cores <b aria-hidden="true">↗</b></a>
     </div>
-    <div class="c ticker h-b3" aria-label="Our Cores">
-      <p class="mono label">Our Cores</p>
-      <div class="ticker__row" aria-hidden="true">
-        <span>PCB</span><span>Embedded</span><span>Robotics</span><span>Automation</span>
-        <span>PCB</span><span>Embedded</span><span>Robotics</span><span>Automation</span>
-        <span>PCB</span><span>Embedded</span><span>Robotics</span><span>Automation</span>
-        <span>PCB</span><span>Embedded</span><span>Robotics</span><span>Automation</span>
-      </div>
-    </div>
 
-    <div class="c h-c1"><div class="scrollcue"><p class="mono mute">Scroll<br>30.05°N 31.34°E</p><i aria-hidden="true"></i></div></div>
-    <div class="c tint h-c2"><p class="display"><span class="mask"><span>the Core.</span></span></p></div>
+    <div class="c hx-m"><div class="scrollcue"><p class="mono mute">Scroll<br>30.05°N 31.34°E</p><i aria-hidden="true"></i></div></div>
+    <div class="c tint hx-x"><p class="display display--xl"><span class="mask"><span>the Core.</span></span></p></div>
   </div>
 </section>
 
 <!-- STATS -->
 <section aria-label="DOT CORE at a glance">
   <div class="frame">
-    <div class="c stat"><p class="mono label">Cores in the roadmap</p><p class="num" data-count="4" data-pad="2">04</p></div>
+    <div class="c stat inv"><p class="mono label">Cores in the roadmap</p><p class="num" data-count="4" data-pad="2">04</p></div>
     <div class="c stat tint"><p class="mono label">Core launching first</p><p class="num" data-count="1" data-pad="2">01</p></div>
     <div class="c stat"><p class="mono label">Capabilities in PCB Core</p><p class="num" data-count="6" data-pad="2">06</p></div>
-    <div class="c stat inv"><p class="mono label">Review-gated project stages</p><p class="num" data-count="5" data-pad="2">05</p></div>
+    <div class="c stat dark"><p class="mono label">Review-gated project stages</p><p class="num" data-count="5" data-pad="2">05</p></div>
   </div>
 </section>
 
@@ -108,35 +123,88 @@
 </section>
 
 <!-- CORES -->
-<section id="cores">
+<section id="cores" class="dark">
   <div class="frame">
     <div class="c s2 head-c"><p class="mono label rv">02 — Structure</p><h2 class="title"><span class="mask"><span>Cores</span></span></h2></div>
-    <div class="c s2 head-c tint"><p class="mono label rv">One company. Specialized Cores.</p><p class="lead rv">Each Core is a focused engineering unit with its own scope, process and quality gates. A new Core opens only when the one before it runs reliably.</p></div>
+    <div class="c s2 head-c"><p class="mono label rv">One company. Specialized Cores.</p><p class="lead rv">Each Core is a focused engineering unit with its own scope, process and quality gates. A new Core opens only when the one before it runs reliably.</p></div>
   </div>
 
   <article class="frame corerow">
-    <div class="c"><span class="n">01</span><h3>PCB Core</h3></div>
-    <div class="c"><span class="chip chip--on" style="align-self:flex-start">Launching</span><p>From idea to PCB. From prototype to production. Schematic and PCB design with design-for-manufacture and design-for-test built in from the first review.</p></div>
-    <div class="c"><p class="mono label">Capabilities</p><ul><li>Schematic design</li><li>PCB layout, single to multilayer</li><li>DFM &amp; DFT checks</li><li>BOM optimization</li><li>Prototyping coordination</li><li>Debugging &amp; validation</li></ul></div>
-    <div class="c" data-placeholder><p class="mono label">Selected projects</p><ul class="proj proj-ph"><li>Project title <span>Year</span></li><li>Project title <span>Year</span></li><li><span class="chip chip--dash">Sample — replace</span></li></ul></div>
+    <div class="c cr-1">
+      <div class="cr-top"><span class="n">01</span><span class="chip chip--on">Launching</span></div>
+      <h3>PCB Core</h3>
+      <svg class="ill draw" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+        <rect x="24" y="24" width="152" height="152" rx="8"/><rect x="48" y="48" width="104" height="104" rx="4"/>
+        <path d="M24 78h34l16 16h52l16-16h34M24 124h52l18-18h30l18 18h34M100 48V24M100 176v-24"/>
+        <circle cx="58" cy="78" r="4"/><circle cx="142" cy="78" r="4"/><circle cx="76" cy="124" r="4"/><circle cx="148" cy="124" r="4"/><circle cx="100" cy="100" r="9"/>
+      </svg>
+    </div>
+    <div class="c cr-2">
+      <p>From idea to PCB. From prototype to production. Schematic and PCB design with design-for-manufacture and design-for-test built in from the first review.</p>
+      <ul><li>Schematic design</li><li>PCB layout, single to multilayer</li><li>DFM &amp; DFT checks</li><li>BOM optimization</li><li>Prototyping coordination</li><li>Debugging &amp; validation</li></ul>
+    </div>
+    <div class="c s2 cr-3" data-placeholder>
+      <p class="mono label">Selected projects</p>
+      <ul class="proj"><li>Project title <span>Year</span></li><li>Project title <span>Year</span></li><li><span class="chip chip--dash">Sample — replace with real work</span></li></ul>
+    </div>
   </article>
+
   <article class="frame corerow">
-    <div class="c"><span class="n">02</span><h3>Embedded Core</h3></div>
-    <div class="c"><span class="chip chip--dash" style="align-self:flex-start">Planned</span><p>Firmware and embedded system development for the hardware designed in PCB Core.</p></div>
-    <div class="c"><p class="mono label">Scope</p><ul><li>Firmware development</li><li>Board bring-up</li><li>Hardware–software integration</li><li>Test firmware</li></ul></div>
-    <div class="c" data-placeholder><p class="mono label">Selected projects</p><ul class="proj proj-ph"><li>Project title <span>Year</span></li><li><span class="chip chip--dash">Sample — replace</span></li></ul></div>
+    <div class="c cr-1">
+      <div class="cr-top"><span class="n">02</span><span class="chip chip--dash">Planned</span></div>
+      <h3>Embedded Core</h3>
+      <svg class="ill draw" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+        <rect x="56" y="56" width="88" height="88" rx="4"/><rect x="76" y="76" width="48" height="48"/><circle cx="88" cy="88" r="3"/>
+        <path d="M76 56V32M100 56V32M124 56V32M76 144v24M100 144v24M124 144v24M56 76H32M56 100H32M56 124H32M144 76h24M144 100h24M144 124h24"/>
+        <path d="M32 32h20v20M168 168h-20v-20"/>
+      </svg>
+    </div>
+    <div class="c cr-2">
+      <p>Firmware and embedded system development for the hardware designed in PCB Core.</p>
+      <ul><li>Firmware development</li><li>Board bring-up</li><li>Hardware–software integration</li><li>Test firmware</li></ul>
+    </div>
+    <div class="c s2 cr-3" data-placeholder>
+      <p class="mono label">Selected projects</p>
+      <ul class="proj"><li>Project title <span>Year</span></li><li><span class="chip chip--dash">Sample — replace with real work</span></li></ul>
+    </div>
   </article>
+
   <article class="frame corerow">
-    <div class="c"><span class="n">03</span><h3>Robotics Core</h3></div>
-    <div class="c"><span class="chip chip--dash" style="align-self:flex-start">Planned</span><p>Robotic systems that combine mechanics, electronics and software into one working product.</p></div>
-    <div class="c"><p class="mono label">Scope</p><ul><li>Mechatronic design</li><li>Motion control &amp; sensing</li><li>Prototype to pilot</li><li>Integration &amp; testing</li></ul></div>
-    <div class="c" data-placeholder><p class="mono label">Selected projects</p><ul class="proj proj-ph"><li>Project title <span>Year</span></li><li><span class="chip chip--dash">Sample — replace</span></li></ul></div>
+    <div class="c cr-1">
+      <div class="cr-top"><span class="n">03</span><span class="chip chip--dash">Planned</span></div>
+      <h3>Robotics Core</h3>
+      <svg class="ill draw" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+        <path d="M30 176h96M60 176v-14"/><circle cx="60" cy="150" r="12"/><path d="M68 142l36-52"/><circle cx="110" cy="82" r="10"/><path d="M117 76l38-26"/><circle cx="160" cy="46" r="7"/>
+        <path d="M164 52l12 14M158 53l-2 18M168 46h14"/><path d="M130 176a40 40 0 0 0 0-1"/>
+      </svg>
+    </div>
+    <div class="c cr-2">
+      <p>Robotic systems that combine mechanics, electronics and software into one working product.</p>
+      <ul><li>Mechatronic design</li><li>Motion control &amp; sensing</li><li>Prototype to pilot</li><li>Integration &amp; testing</li></ul>
+    </div>
+    <div class="c s2 cr-3" data-placeholder>
+      <p class="mono label">Selected projects</p>
+      <ul class="proj"><li>Project title <span>Year</span></li><li><span class="chip chip--dash">Sample — replace with real work</span></li></ul>
+    </div>
   </article>
+
   <article class="frame corerow">
-    <div class="c"><span class="n">04</span><h3>Automation Core</h3></div>
-    <div class="c"><span class="chip chip--dash" style="align-self:flex-start">Planned</span><p>Industrial control and automation solutions for factories and workshops.</p></div>
-    <div class="c"><p class="mono label">Scope</p><ul><li>Control panels &amp; logic</li><li>Process automation</li><li>Monitoring &amp; maintenance</li><li>Retrofit of legacy equipment</li></ul></div>
-    <div class="c" data-placeholder><p class="mono label">Selected projects</p><ul class="proj proj-ph"><li>Project title <span>Year</span></li><li><span class="chip chip--dash">Sample — replace</span></li></ul></div>
+    <div class="c cr-1">
+      <div class="cr-top"><span class="n">04</span><span class="chip chip--dash">Planned</span></div>
+      <h3>Automation Core</h3>
+      <svg class="ill draw spin" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+        <circle cx="100" cy="100" r="72"/><ellipse cx="100" cy="100" rx="72" ry="26"/><ellipse cx="100" cy="100" rx="72" ry="52"/>
+        <ellipse cx="100" cy="100" rx="60" ry="72"/><ellipse cx="100" cy="100" rx="30" ry="72"/><path d="M100 28v144"/>
+      </svg>
+    </div>
+    <div class="c cr-2">
+      <p>Industrial control and automation solutions for factories and workshops.</p>
+      <ul><li>Control panels &amp; logic</li><li>Process automation</li><li>Monitoring &amp; maintenance</li><li>Retrofit of legacy equipment</li></ul>
+    </div>
+    <div class="c s2 cr-3" data-placeholder>
+      <p class="mono label">Selected projects</p>
+      <ul class="proj"><li>Project title <span>Year</span></li><li><span class="chip chip--dash">Sample — replace with real work</span></li></ul>
+    </div>
   </article>
 </section>
 
@@ -166,10 +234,10 @@
 </section>
 
 <!-- PARTNERS -->
-<section id="partners">
+<section id="partners" class="dark">
   <div class="frame">
     <div class="c s2 head-c"><p class="mono label rv">05 — Ecosystem</p><h2 class="title"><span class="mask"><span>Partners</span></span></h2></div>
-    <div class="c s2 head-c tint"><p class="mono label rv">Agreements, relationships &amp; events</p><p class="lead rv">Manufacturing partners, universities and industry events — listed here as each agreement or participation is confirmed.</p></div>
+    <div class="c s2 head-c"><p class="mono label rv">Agreements, relationships &amp; events</p><p class="lead rv">Manufacturing partners, universities and industry events — listed here as each agreement or participation is confirmed.</p></div>
   </div>
   <div class="frame logos" data-placeholder>
     <div class="c logo"><b>Partner logo</b><span class="chip chip--dash">Sample</span></div>
@@ -196,14 +264,14 @@
 <section id="team">
   <div class="frame">
     <div class="c s2 head-c"><p class="mono label rv">06 — People</p><h2 class="title"><span class="mask"><span>Team</span></span></h2></div>
-    <div class="c s2 head-c tint"><p class="mono label rv">The people behind the Cores</p><p class="lead rv">Engineers accountable for every design they release. Profiles below are placeholders until the team is confirmed.</p></div>
+    <div class="c s2 head-c tint"><p class="mono label rv">Who you will work with</p><p class="big rv">Small team.<br>High standards.</p><p class="mute rv">Every project has a named engineer accountable for the design review and the handover. Profiles below are placeholders until the team is confirmed.</p></div>
   </div>
   <div class="team-wrap">
     <div class="frame team" data-placeholder>
-      <article class="c person"><div class="person__ph"><canvas data-ht="person" data-step="7" data-seed="1" aria-hidden="true"></canvas><span class="role">Founder &amp; CEO</span></div><div class="person__bar"><div><h3>Full Name</h3><span class="chip chip--dash" style="margin-top:6px">Placeholder</span></div><b aria-hidden="true">↗</b></div></article>
-      <article class="c person"><div class="person__ph"><canvas data-ht="person" data-step="7" data-seed="2" aria-hidden="true"></canvas><span class="role">PCB Design Lead</span></div><div class="person__bar"><div><h3>Full Name</h3><span class="chip chip--dash" style="margin-top:6px">Placeholder</span></div><b aria-hidden="true">↗</b></div></article>
-      <article class="c person"><div class="person__ph"><canvas data-ht="person" data-step="7" data-seed="3" aria-hidden="true"></canvas><span class="role">Embedded Engineer</span></div><div class="person__bar"><div><h3>Full Name</h3><span class="chip chip--dash" style="margin-top:6px">Placeholder</span></div><b aria-hidden="true">↗</b></div></article>
-      <article class="c person"><div class="person__ph"><canvas data-ht="person" data-step="7" data-seed="4" aria-hidden="true"></canvas><span class="role">Operations</span></div><div class="person__bar"><div><h3>Full Name</h3><span class="chip chip--dash" style="margin-top:6px">Placeholder</span></div><b aria-hidden="true">↗</b></div></article>
+      <article class="c person"><div class="person__ph"><canvas data-ht="person" data-step="6" data-seed="1" aria-hidden="true"></canvas><span class="role">Founder &amp; CEO</span></div><div class="person__bar"><div><h3>Full Name</h3><span class="chip chip--dash" style="margin-top:6px">Placeholder</span></div><b aria-hidden="true">↗</b></div></article>
+      <article class="c person"><div class="person__ph"><canvas data-ht="person" data-step="6" data-seed="2" aria-hidden="true"></canvas><span class="role">PCB Design Lead</span></div><div class="person__bar"><div><h3>Full Name</h3><span class="chip chip--dash" style="margin-top:6px">Placeholder</span></div><b aria-hidden="true">↗</b></div></article>
+      <article class="c person"><div class="person__ph"><canvas data-ht="person" data-step="6" data-seed="3" aria-hidden="true"></canvas><span class="role">Embedded Engineer</span></div><div class="person__bar"><div><h3>Full Name</h3><span class="chip chip--dash" style="margin-top:6px">Placeholder</span></div><b aria-hidden="true">↗</b></div></article>
+      <article class="c person"><div class="person__ph"><canvas data-ht="person" data-step="6" data-seed="4" aria-hidden="true"></canvas><span class="role">Operations</span></div><div class="person__bar"><div><h3>Full Name</h3><span class="chip chip--dash" style="margin-top:6px">Placeholder</span></div><b aria-hidden="true">↗</b></div></article>
     </div>
   </div>
 </section>
@@ -216,20 +284,23 @@
     <div class="c s4 slider" data-placeholder>
       <div class="slides" id="slides">
         <figure class="slide" role="group" aria-roledescription="slide" aria-label="1 of 3">
+          <div class="slide__ph"><canvas data-ht="person" data-step="6" data-seed="5" aria-hidden="true"></canvas></div>
           <blockquote>“Replace this with a real, approved client testimonial about a delivered project.”</blockquote>
-          <figcaption><b>Client Name</b><span class="mono mute">Position — Company</span><span class="chip chip--dash" style="align-self:flex-start">Sample</span></figcaption>
+          <figcaption><p class="mono mute">Name</p><p>Client Name</p><p class="mono mute">Position</p><p>Role title</p><p class="mono mute">Company</p><p>Company name</p><span class="chip chip--dash" style="align-self:flex-start">Sample</span></figcaption>
         </figure>
         <figure class="slide" role="group" aria-roledescription="slide" aria-label="2 of 3" aria-hidden="true">
+          <div class="slide__ph"><canvas data-ht="person" data-step="6" data-seed="6" aria-hidden="true"></canvas></div>
           <blockquote>“A second testimonial goes here. Keep it specific: what was delivered and what changed.”</blockquote>
-          <figcaption><b>Client Name</b><span class="mono mute">Position — Company</span><span class="chip chip--dash" style="align-self:flex-start">Sample</span></figcaption>
+          <figcaption><p class="mono mute">Name</p><p>Client Name</p><p class="mono mute">Position</p><p>Role title</p><p class="mono mute">Company</p><p>Company name</p><span class="chip chip--dash" style="align-self:flex-start">Sample</span></figcaption>
         </figure>
         <figure class="slide" role="group" aria-roledescription="slide" aria-label="3 of 3" aria-hidden="true">
+          <div class="slide__ph"><canvas data-ht="person" data-step="6" data-seed="7" aria-hidden="true"></canvas></div>
           <blockquote>“A third testimonial goes here, from a student, researcher or startup team.”</blockquote>
-          <figcaption><b>Client Name</b><span class="mono mute">Position — Company</span><span class="chip chip--dash" style="align-self:flex-start">Sample</span></figcaption>
+          <figcaption><p class="mono mute">Name</p><p>Client Name</p><p class="mono mute">Position</p><p>Role title</p><p class="mono mute">Company</p><p>Company name</p><span class="chip chip--dash" style="align-self:flex-start">Sample</span></figcaption>
         </figure>
       </div>
       <div class="slider__ctl">
-        <span class="mono"><span id="sCur">01</span> / <span id="sTot">03</span></span>
+        <span class="mono"><span id="sCur">01</span> — <span id="sTot">03</span></span>
         <div class="dots" id="dots" role="tablist" aria-label="Choose testimonial"></div>
         <div class="slider__btns"><button type="button" id="sPrev" aria-label="Previous testimonial">←</button><button type="button" id="sNext" aria-label="Next testimonial">→</button></div>
       </div>
@@ -256,14 +327,19 @@
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="cta">
-    <canvas data-ht="field" data-step="12" data-seed="5" aria-hidden="true"></canvas>
+  <div class="cta dark">
+    <canvas data-ht="field" data-step="8" data-seed="5" data-emblem="1" aria-hidden="true"></canvas>
     <p class="mono label" style="position:absolute;top:var(--pad);left:var(--pad);background:var(--bg);padding:6px 8px">09 — Contact</p>
     <h2 class="cta__words" aria-label="Let's start a project">
       <span class="rv" aria-hidden="true">Let's</span>
       <span class="rv row2" aria-hidden="true">start a</span>
       <span class="dk rv" aria-hidden="true">project</span>
     </h2>
+    <form class="quick" id="quick" novalidate>
+      <label class="sr" for="q-email">Your email</label>
+      <input id="q-email" type="email" placeholder="Your email address" autocomplete="email">
+      <button type="submit" aria-label="Continue to the inquiry form">→</button>
+    </form>
   </div>
   <div class="frame">
     <div class="c s2">
@@ -298,20 +374,24 @@
 
 </main>
 
-<footer class="foot">
+<footer class="foot dark">
   <div class="frame">
-    <div class="c s2 end" style="min-height:clamp(220px,22vw,340px)"><p class="tag">Engineering<br>the Core.</p></div>
+    <div class="c s2 mark">
+      <span class="mono mute">Engineering &amp; Technology</span>
+      <p class="wordmark"><span class="brand__dot" aria-hidden="true"></span>DOT CORE</p>
+      <p class="mono mute">Engineering the Core. — Cairo, Egypt</p>
+    </div>
     <nav class="c" aria-label="Footer"><p class="mono label mute">Navigate</p><ul><li><a href="#about">About</a></li><li><a href="#cores">Cores</a></li><li><a href="#process">Process</a></li><li><a href="#partners">Partners</a></li><li><a href="#team">Team</a></li><li><a href="#contact">Contact</a></li></ul></nav>
     <div class="c"><p class="mono label mute">World clocks</p>
       <div class="clocks" aria-label="World clocks">
-        <div class="clk"><span>Cairo</span><time data-tz="Africa/Cairo">--:--</time></div>
-        <div class="clk"><span>Riyadh</span><time data-tz="Asia/Riyadh">--:--</time></div>
-        <div class="clk"><span>Dubai</span><time data-tz="Asia/Dubai">--:--</time></div>
-        <div class="clk"><span>London</span><time data-tz="Europe/London">--:--</time></div>
-        <div class="clk"><span>Paris</span><time data-tz="Europe/Paris">--:--</time></div>
-        <div class="clk"><span>Berlin</span><time data-tz="Europe/Berlin">--:--</time></div>
-        <div class="clk"><span>New York</span><time data-tz="America/New_York">--:--</time></div>
-        <div class="clk"><span>Shenzhen</span><time data-tz="Asia/Shanghai">--:--</time></div>
+        <div class="clk"><span class="ac" data-ac="Africa/Cairo"><i></i><i></i></span><span class="nm">Cairo</span><time data-tz="Africa/Cairo">--:--</time></div>
+        <div class="clk"><span class="ac" data-ac="Asia/Riyadh"><i></i><i></i></span><span class="nm">Riyadh</span><time data-tz="Asia/Riyadh">--:--</time></div>
+        <div class="clk"><span class="ac" data-ac="Asia/Dubai"><i></i><i></i></span><span class="nm">Dubai</span><time data-tz="Asia/Dubai">--:--</time></div>
+        <div class="clk"><span class="ac" data-ac="Europe/London"><i></i><i></i></span><span class="nm">London</span><time data-tz="Europe/London">--:--</time></div>
+        <div class="clk"><span class="ac" data-ac="Europe/Paris"><i></i><i></i></span><span class="nm">Paris</span><time data-tz="Europe/Paris">--:--</time></div>
+        <div class="clk"><span class="ac" data-ac="Europe/Berlin"><i></i><i></i></span><span class="nm">Berlin</span><time data-tz="Europe/Berlin">--:--</time></div>
+        <div class="clk"><span class="ac" data-ac="America/New_York"><i></i><i></i></span><span class="nm">New York</span><time data-tz="America/New_York">--:--</time></div>
+        <div class="clk"><span class="ac" data-ac="Asia/Shanghai"><i></i><i></i></span><span class="nm">Shenzhen</span><time data-tz="Asia/Shanghai">--:--</time></div>
       </div>
     </div>
   </div>

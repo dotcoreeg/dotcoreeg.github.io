@@ -3,7 +3,7 @@
 
   /* ---------------- configuration ----------------
      Contact form: GitHub Pages is static, so the form needs a form backend.
-     1. Create a free form at https://formspree.io (or similar) pointing to dot.core.eg@gmail.com
+     1. Create a free form at https://formspree.io (or similar) that forwards to dot.core.eg@gmail.com
      2. Paste its endpoint below, e.g. 'https://formspree.io/f/xxxxxxxx'
      While empty, the form opens the visitor's email app with the message prefilled. */
   var FORM_ENDPOINT = '';
@@ -44,29 +44,72 @@
   if (burger) {
     burger.addEventListener('click', function () { setMenu(burger.getAttribute('aria-expanded') !== 'true'); });
     links.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
-    d.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
     window.addEventListener('resize', function () { if (window.innerWidth > 1100) setMenu(false); });
   }
 
-  /* ---------------- clocks ---------------- */
-  var clocks = $$('time[data-tz]');
+  /* ---------------- contact drawer ---------------- */
+  var drawer = $('#drawer'), scrim = $('#scrim'), openBtn = $('#openDrawer'), closeBtn = $('#closeDrawer');
+  function setDrawer(open) {
+    if (!drawer) return;
+    drawer.classList.toggle('open', open);
+    drawer.setAttribute('aria-hidden', String(!open));
+    if (open) { scrim.hidden = false; requestAnimationFrame(function () { scrim.classList.add('on'); }); closeBtn.focus(); }
+    else { scrim.classList.remove('on'); setTimeout(function () { scrim.hidden = true; }, 400); if (openBtn) openBtn.focus(); }
+    d.body.style.overflow = open ? 'hidden' : '';
+  }
+  if (drawer && openBtn) {
+    openBtn.addEventListener('click', function () { setMenu(false); setDrawer(true); });
+    closeBtn.addEventListener('click', function () { setDrawer(false); });
+    scrim.addEventListener('click', function () { setDrawer(false); });
+    $('#drawerGo').addEventListener('click', function () { setDrawer(false); });
+    $$('.copy', drawer).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var txt = b.getAttribute('data-copy');
+        function done() { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1600); }
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, done);
+        else {
+          var t = d.createElement('textarea'); t.value = txt; d.body.appendChild(t); t.select();
+          try { d.execCommand('copy'); } catch (e) {} d.body.removeChild(t); done();
+        }
+      });
+    });
+  }
+  d.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { setMenu(false); if (drawer && drawer.classList.contains('open')) setDrawer(false); }
+  });
+
+  /* ---------------- clocks (digital + analog) ---------------- */
+  var clocks = $$('time[data-tz]'), analog = $$('[data-ac]');
+  function hm(tz, now) {
+    try {
+      var p = new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(now), h = 0, m = 0;
+      p.forEach(function (x) { if (x.type === 'hour') h = parseInt(x.value, 10) % 24; if (x.type === 'minute') m = parseInt(x.value, 10); });
+      return [h, m];
+    } catch (e) { return null; }
+  }
   function tick() {
     var now = new Date();
     clocks.forEach(function (el) {
-      try {
-        el.textContent = now.toLocaleTimeString('en-GB', { timeZone: el.getAttribute('data-tz'), hour: '2-digit', minute: '2-digit' });
-      } catch (e) { el.textContent = ''; }
+      var t = hm(el.getAttribute('data-tz'), now);
+      el.textContent = t ? ('0' + t[0]).slice(-2) + ':' + ('0' + t[1]).slice(-2) : '';
+    });
+    analog.forEach(function (el) {
+      var t = hm(el.getAttribute('data-ac'), now); if (!t) return;
+      var hands = el.querySelectorAll('i');
+      hands[0].style.transform = 'rotate(' + (((t[0] % 12) + t[1] / 60) * 30) + 'deg)';
+      hands[1].style.transform = 'rotate(' + (t[1] * 6) + 'deg)';
     });
   }
   if (clocks.length) { tick(); setInterval(tick, 15000); }
   var yr = $('#yr'); if (yr) yr.textContent = new Date().getFullYear();
 
-  /* ---------------- reveal + counters ---------------- */
+  /* ---------------- reveal + counters + line drawing ---------------- */
+  $$('.draw circle,.draw rect,.draw path,.draw ellipse,.draw line').forEach(function (e) { e.setAttribute('pathLength', '1'); });
   function count(el) {
     var to = parseInt(el.getAttribute('data-count'), 10) || 0, pad = parseInt(el.getAttribute('data-pad'), 10) || 0;
     function fmt(n) { var s = String(n); while (s.length < pad) s = '0' + s; return s; }
     if (reduce) { el.textContent = fmt(to); return; }
-    var t0 = null, dur = 1500;
+    var t0 = null, dur = 1600;
     function step(t) {
       if (t0 === null) t0 = t;
       var p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 4);
@@ -76,8 +119,7 @@
     el.textContent = fmt(0);
     requestAnimationFrame(step);
   }
-  var revealEls = $$('.rv, .mask');
-  var counters = $$('[data-count]');
+  var revealEls = $$('.rv, .mask, .draw, [data-count]');
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
@@ -88,12 +130,10 @@
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
     revealEls.forEach(function (el) { io.observe(el); });
-    counters.forEach(function (el) { io.observe(el); });
   } else {
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }
-  // hero headline plays immediately
-  setTimeout(function () { $$('.hero .mask').forEach(function (m, i) { setTimeout(function () { m.classList.add('in'); }, i * 140); }); }, 80);
+  setTimeout(function () { $$('.hero .mask').forEach(function (m, i) { setTimeout(function () { m.classList.add('in'); }, i * 160); }); }, 80);
 
   /* ---------------- FAQ: one open at a time ---------------- */
   var det = $$('.faq details');
@@ -109,8 +149,9 @@
     var self = this;
     this.cv = cv; this.ctx = cv.getContext('2d');
     this.mode = cv.getAttribute('data-ht') || 'field';
-    this.step = parseFloat(cv.getAttribute('data-step')) || 10;
+    this.step = parseFloat(cv.getAttribute('data-step')) || 8;
     this.seed = parseFloat(cv.getAttribute('data-seed')) || 1;
+    this.emblem = cv.getAttribute('data-emblem') === '1';
     this.t = this.seed * 3; this.mx = -9999; this.my = -9999; this.vis = false; this.last = 0;
     this.size();
     var host = cv.parentElement;
@@ -128,7 +169,6 @@
   Art.prototype.val = function (x, y) {
     var w = this.w, h = this.h, t = this.t, s = this.seed, nx = x / w, ny = y / h, v;
     if (this.mode === 'person') {
-      // abstract head-and-shoulders silhouette (neutral placeholder portrait)
       var hx = (nx - .5) / .2, hy = (ny - .37) / .24, head = hx * hx + hy * hy;
       var sx = (nx - .5) / .5, sy = (ny - 1.02) / .42, sh = sx * sx + sy * sy;
       var nk = Math.abs(nx - .5) < .07 && ny > .5 && ny < .72 ? 1 : 0;
@@ -138,15 +178,21 @@
       else v = .12 + .1 * Math.sin(nx * 7 + s) * Math.sin(ny * 6 - s);
       v += .04 * Math.sin(t + nx * 9 + ny * 7);
     } else {
-      v = .5 + .2 * Math.sin(nx * 5.1 + s + t * .55) + .2 * Math.sin(ny * 6.3 - s * 1.7 - t * .45) + .14 * Math.sin((nx + ny) * 9 + t * .35);
-      var cx = (.5 + Math.sin(s) * .12) * w, cy = (.52 + Math.cos(s) * .08) * h;
-      var dd = Math.hypot(x - cx, y - cy) / Math.min(w * 1.1, h * 1.1);
-      var ring = Math.abs(Math.sin(dd * 15 - t * .7));
-      v = v * .55 + ring * .55 * (1 - Math.min(dd, 1) * .55);
-      v *= .55 + .45 * Math.min(1, dd * 1.6 + .2);
+      // layered cloud-like field
+      v = .5 + .2 * Math.sin(nx * 4.3 + s + t * .4) + .2 * Math.sin(ny * 5.1 - s * 1.3 - t * .35)
+        + .12 * Math.sin(nx * 7 + ny * 5 + t * .3 + s) + .09 * Math.sin(nx * 17 - ny * 13 + s * 2 + t * .2)
+        + .05 * Math.sin(nx * 31 + ny * 27 - t * .5);
+      v = v * .9 + .2;
+      if (this.emblem) {
+        // the "core": a ring and a dot, rendered as a lighter region in the texture
+        var cx = w * .5, cy = h * .5, R = Math.min(w, h) * .34, dd = Math.hypot(x - cx, y - cy);
+        var ring = Math.abs(dd - R) < R * .075, dot = dd < R * .24;
+        if (ring || dot) v *= .16;
+        else if (dd < R * 1.04 && dd > R * .24) v *= .78;
+      }
     }
     var md = Math.hypot(x - this.mx, y - this.my);
-    if (md < 130) v += (1 - md / 130) * .55;
+    if (md < 120) v += (1 - md / 120) * .5;
     return v;
   };
   Art.prototype.draw = function () {
@@ -159,22 +205,21 @@
       for (var x = off; x < w; x += st) {
         var v = this.val(x, y); if (v < .06) continue;
         v = v > 1 ? 1 : v;
-        var rad = r * Math.pow(v, 1.35) * .96;
-        if (rad < .35) continue;
+        var rad = r * Math.pow(v, 1.12) * .98;
+        if (rad < .3) continue;
         ctx.moveTo(x + rad, y); ctx.arc(x, y, rad, 0, 6.2832);
       }
     }
     ctx.fill();
   };
-  var artEls = $$('canvas[data-ht]');
-  artEls.forEach(function (cv) { arts.push(new Art(cv)); });
+  $$('canvas[data-ht]').forEach(function (cv) { arts.push(new Art(cv)); });
   function drawAll() { arts.forEach(function (a) { a.draw(); }); }
   function loop(now) {
     requestAnimationFrame(loop);
     arts.forEach(function (a) {
-      if (!a.vis || a.mode === 'person' && a.mx < -999) return;
-      if (now - a.last < 42) return;
-      a.last = now; a.t += .035; a.draw();
+      if (!a.vis || (a.mode === 'person' && a.mx < -999)) return;
+      if (now - a.last < 50) return;
+      a.last = now; a.t += .04; a.draw();
     });
   }
   if ('IntersectionObserver' in window) {
@@ -226,6 +271,19 @@
       if (e.key === 'ArrowRight') go(idx + 1); else if (e.key === 'ArrowLeft') go(idx - 1);
     });
     go(0);
+  }
+
+  /* ---------------- quick email -> full form ---------------- */
+  var quick = $('#quick');
+  if (quick) {
+    quick.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = $('#q-email').value.trim(), fe = $('#f-email');
+      if (v) fe.value = v;
+      var target = $('#f-name'); if (!v) target = fe;
+      target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      setTimeout(function () { target.focus({ preventScroll: true }); }, 500);
+    });
   }
 
   /* ---------------- contact form ---------------- */
