@@ -474,3 +474,9 @@ button.nav__contact{border:0;cursor:pointer;text-align:left;width:auto}
 .hx-a2 video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s;filter:grayscale(1) contrast(1.15) brightness(.85)}
 .hx-a2.has-video video{opacity:1}
 .hx-a2.has-video canvas{opacity:0}
+
+/* optional looping video backgrounds (appear only if the file exists) */
+.vbg{overflow:hidden}
+.vbg>:not(video){position:relative;z-index:1}
+.vbg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s;filter:grayscale(1) contrast(1.1)}
+.vbg.has-video video{opacity:.5}

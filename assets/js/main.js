@@ -266,8 +266,38 @@
       ctx.globalAlpha = 1;
     }
   };
+
+  /* Oscilloscope: the validation side of the work (test, measure, verify) */
+  Art.prototype.drawScope = function () {
+    var ctx = this.ctx, w = this.w, h = this.h, ink = getComputedStyle(this.cv).color, x, u, y, cy = h * .5;
+    ctx.clearRect(0, 0, w, h);
+    var div = Math.max(28, Math.min(w, h) / 5);
+    ctx.strokeStyle = ink; ctx.lineWidth = 1; ctx.globalAlpha = .13; ctx.beginPath();
+    for (x = w / 2 % div; x < w; x += div) { ctx.moveTo(x, 0); ctx.lineTo(x, h); }
+    for (y = cy % div; y < h; y += div) { ctx.moveTo(0, y); ctx.lineTo(w, y); }
+    ctx.stroke();
+    ctx.globalAlpha = .3; ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.moveTo(w / 2, 0); ctx.lineTo(w / 2, h); ctx.stroke();
+    var amp = h * .26, off = this.t * 55, period = Math.max(140, w / 3.2), TAU = 6.2832;
+    // CH2: clean sine reference
+    ctx.globalAlpha = .38; ctx.beginPath();
+    for (x = 0; x <= w; x += 3) { y = cy + h * .06 + Math.sin((x + off * .6) / period * TAU) * amp * .55; x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
+    ctx.stroke();
+    // CH1: digital signal with ringing on the edges (copper)
+    ctx.globalAlpha = 1; ctx.strokeStyle = ACCENT; ctx.lineWidth = 1.8; ctx.lineJoin = 'round'; ctx.beginPath();
+    for (x = 0; x <= w; x += 2) {
+      u = (x + off) / period;
+      var s = Math.sin(u * TAU), sq = s > 0 ? 1 : -1, edge = Math.exp(-Math.abs(s) * 14);
+      y = cy - amp * (sq * (1 - edge) + Math.tanh(s * 9) * edge * .9 + .1 * Math.sin(u * TAU * 14) * edge);
+      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.fillStyle = ink; ctx.globalAlpha = .65; ctx.font = '500 10px "JetBrains Mono",ui-monospace,monospace';
+    ctx.fillText('CH1  3.3 V', 12, 20); ctx.globalAlpha = .4; ctx.fillText('CH2  REF', 12, 34);
+    ctx.textAlign = 'right'; ctx.globalAlpha = .45; ctx.fillText('1 ms/div', w - 12, h - 12); ctx.textAlign = 'left'; ctx.globalAlpha = 1;
+  };
   Art.prototype.draw = function () {
     if (this.mode === 'traces') return this.drawTraces();
+    if (this.mode === 'scope') return this.drawScope();
     var ctx = this.ctx, st = this.step, w = this.w, h = this.h;
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = getComputedStyle(this.cv).color;
@@ -312,13 +342,19 @@
   if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { arts.forEach(function (a) { a.size(); a.draw(); }); });
   if (!reduce && arts.length) requestAnimationFrame(loop);
 
-  /* ---------------- optional hero video ---------------- */
-  var hv = $('.hx-a2 video');
-  if (hv) {
-    hv.addEventListener('canplay', function () { hv.parentElement.classList.add('has-video'); hv.play && hv.play().catch(function () {}); });
-    hv.addEventListener('error', function () { hv.parentElement.classList.remove('has-video'); hv.remove(); });
-    if (reduce) { hv.removeAttribute('autoplay'); hv.pause && hv.pause(); }
-  }
+  /* ---------------- optional videos (hero + backgrounds) ---------------- */
+  var vids = $$('.hx-a2 video, .vbg video');
+  vids.forEach(function (v) {
+    v.muted = true;
+    v.addEventListener('canplay', function () { v.parentElement.classList.add('has-video'); });
+    v.addEventListener('error', function () { v.parentElement.classList.remove('has-video'); v.remove(); });
+    if (reduce) { v.removeAttribute('autoplay'); v.pause(); return; }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) {
+        en.forEach(function (e) { if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); });
+      }, { threshold: 0.05 }).observe(v);
+    }
+  });
 
   /* ---------------- testimonial slider ---------------- */
   var track = $('#slides');
