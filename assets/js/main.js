@@ -63,14 +63,17 @@
     try { localStorage.setItem('dc-theme', next); } catch (e) {}
   });
 
-  // Cairo clock
-  var clk = d.getElementById('clock');
+  // world clocks
+  var clocks = d.querySelectorAll('time[data-tz]');
   function tick() {
-    try {
-      clk.textContent = new Date().toLocaleTimeString('en-GB', { timeZone: 'Africa/Cairo', hour: '2-digit', minute: '2-digit' });
-    } catch (e) { clk.textContent = ''; }
+    var now = new Date();
+    clocks.forEach(function (el) {
+      try {
+        el.textContent = now.toLocaleTimeString('en-GB', { timeZone: el.getAttribute('data-tz'), hour: '2-digit', minute: '2-digit' });
+      } catch (e) { el.textContent = ''; }
+    });
   }
-  if (clk) { tick(); setInterval(tick, 30000); }
+  if (clocks.length) { tick(); setInterval(tick, 20000); }
 
   // year
   var yr = d.getElementById('yr');
