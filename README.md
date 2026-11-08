@@ -42,3 +42,8 @@ Config lives at the top of the "request routing" block in `assets/js/main.js` (`
 Purposes: 14 engineering services, 3 programs, 7 company (careers, partnerships, suppliers, events, press, complaint, general). The box never blocks sending; it only suggests the matching form.
 Set `FORM_ENDPOINT` so messages arrive by email directly; otherwise they open in the visitor's email app.
 Review the wording of the Complaint and Careers hints before publishing (they describe how you handle them).
+
+## Request forms (separate page)
+`request.html` holds the full per-discipline forms (sections, progress, review summary, local draft, reference ID).
+The catalogue lives in `assets/js/requests.js` (`CATS`), shared with the contact box on the home page.
+Set the form endpoint and email in `assets/js/config.js` (`ENDPOINT`, `EMAIL`). Deep links: `request.html?type=pcb|embedded|robotics|automation|mechanical|power|iot|ai|mbd|prototype|test|review|repair|education|student|research|careers|partnership|supplier|events|press|complaint|general`.

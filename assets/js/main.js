@@ -938,183 +938,54 @@
     go(0);
   }
 
-  /* ---------------- request routing: contact box + specialty forms ---------------- */
-  var fS = function (k, l, o, r) { return { k: k, l: l, t: 'select', o: o, r: r }; },
-      fT = function (k, l, r) { return { k: k, l: l, t: 'text', r: r }; },
-      fU = function (k, l, r) { return { k: k, l: l, t: 'url', r: r }; },
-      fC = function (k, l, o) { return { k: k, l: l, t: 'checks', o: o }; },
-      fD = function (k, l, r) { return { k: k, l: l, t: 'date', r: r }; },
-      fA = function (k, l, r) { return { k: k, l: l, t: 'area', r: r }; };
-  var STAGE = fS('stage', 'Project stage', ['Idea', 'Requirements defined', 'Design exists', 'Prototype exists', 'In production']),
-      WHEN = fS('when', 'Target timeline', ['Flexible', 'Within 1 month', '1–3 months', 'More than 3 months']),
-      BUDGET = fS('budget', 'Budget status', ['Not decided yet', 'Approved', 'Seeking funding', 'Student / non-profit']),
-      LINK = fU('link', 'Link to files or references (Drive, GitHub…)'),
-      DESC = fA('desc', 'Describe what you need', true),
-      QTY = fS('qty', 'Quantity', ['Single prototype', 'Small batch', 'Pilot run', 'Production']);
-  var AREAS = ['PCB design', 'Embedded systems', 'Robotics', 'Automation', 'Mechanical design', 'Power electronics', 'IoT', 'AI', 'Model-based design', 'Testing', 'Business / operations', 'Other'];
-  var CATS = [
-    { id: 'pcb', g: 0, n: 'PCB design & hardware', kw: /\b(pcb|schematic|gerber|layout|altium|kicad|bom|hardware design|circuit board)\b/i, hint: 'Schematic, layout, DFM/DFT and BOM work.', q: ['layers', 'when'],
-      f: [fS('layers', 'Layers', ['1–2', '4', '6', '8 or more', 'Not sure']), fC('services', 'Services needed', ['Schematic design', 'PCB layout', 'DFM / DFT review', 'BOM optimisation', 'Prototype coordination', 'Full design package']), fS('type', 'Circuit type', ['Digital', 'Analog', 'Mixed-signal', 'High-speed', 'RF', 'Power']), QTY, fS('files', 'Existing material', ['Nothing yet', 'Specification only', 'Schematic', 'Schematic + layout', 'Fabrication files']), WHEN, LINK, DESC] },
-    { id: 'embedded', g: 0, n: 'Embedded systems & firmware', kw: /\b(firmware|stm32|esp32|mcu|embedded|rtos|arduino|microcontroller|bootloader|risc-?v)\b/i, hint: 'Firmware, drivers, RTOS and hardware bring-up.', q: ['mcu', 'when'],
-      f: [fT('mcu', 'MCU / platform (if known)'), fC('services', 'Services needed', ['Firmware development', 'Drivers & peripherals', 'RTOS', 'Bootloader / OTA update', 'Code review', 'Hardware bring-up']), fT('ifaces', 'Interfaces (UART, SPI, I²C, CAN…)'), STAGE, WHEN, LINK, DESC] },
-    { id: 'robotics', g: 0, n: 'Robotics & motion control', kw: /\b(robot|robotics|manipulator|kinematic|servo|ros2?|gripper|mobile robot)\b/i, hint: 'Manipulators, mobile robots, motion control and research platforms.', q: ['type', 'stage'],
-      f: [fS('type', 'System type', ['Manipulator / arm', 'Mobile robot', 'Gripper / end-effector', 'Motion control', 'Research platform', 'Other']), fC('services', 'Services needed', ['Concept & feasibility', 'Mechanical design', 'Electronics', 'Control software', 'Simulation', 'Prototype build']), fT('spec', 'Payload / reach / speed (if known)'), STAGE, WHEN, LINK, DESC] },
-    { id: 'automation', g: 0, n: 'Automation & industrial control', kw: /\b(plc|scada|hmi|automation|conveyor|industrial control|control panel|retrofit)\b/i, hint: 'Machine control, production lines, panels and monitoring.', q: ['area', 'controller'],
-      f: [fS('area', 'Application', ['Machine control', 'Production line', 'Process monitoring', 'Control panel design', 'Retrofit / upgrade', 'Other']), fS('controller', 'Controller', ['PLC', 'Microcontroller / custom', 'SCADA / HMI', 'Not decided']), fT('io', 'Approx. number of inputs / outputs'), STAGE, WHEN, LINK, DESC] },
-    { id: 'mechanical', g: 0, n: 'Mechanical design & 3D modelling', kw: /\b(cad|solidworks|3d model|enclosure|mechanical|cnc|3d print|housing|bracket|fusion 360)\b/i, hint: 'CAD, enclosures, drawings and design for manufacturing.', q: ['process', 'stage'],
-      f: [fC('services', 'Services needed', ['3D modelling (CAD)', 'Enclosure design', '2D manufacturing drawings', 'Design for manufacturing', 'Simulation (FEA)', 'Prototype / 3D printing']), fS('process', 'Intended process', ['3D printing', 'CNC machining', 'Sheet metal', 'Injection moulding', 'Not decided']), fT('size', 'Approx. size / constraints'), STAGE, WHEN, LINK, DESC] },
-    { id: 'power', g: 0, n: 'Power electronics', kw: /\b(power supply|smps|inverter|converter|battery|bms|motor driver|charger|buck|boost)\b/i, hint: 'Supplies, converters, motor drivers and battery systems.', q: ['type', 'level'],
-      f: [fS('type', 'System type', ['AC-DC supply', 'DC-DC converter', 'Motor driver', 'Battery / BMS', 'Charger', 'Inverter', 'Other']), fT('ratings', 'Input / output ratings (if known)'), fS('level', 'Power level', ['Below 100 W', '100 W – 1 kW', 'Above 1 kW', 'Not sure']), STAGE, WHEN, LINK, DESC] },
-    { id: 'iot', g: 0, n: 'IoT & connected devices', kw: /\b(iot|mqtt|lora|gateway|connected device|telemetry|wireless sensor)\b/i, hint: 'Devices, connectivity, gateways and dashboards.', q: ['conn', 'stage'],
-      f: [fS('conn', 'Connectivity', ['Wi-Fi', 'Bluetooth', 'LoRa', 'Cellular', 'Ethernet', 'Not decided']), fS('cloud', 'Cloud / dashboard needed', ['Yes', 'No', 'Not sure']), fT('devices', 'Number of devices (approx.)'), STAGE, WHEN, LINK, DESC] },
-    { id: 'ai', g: 0, n: 'AI & intelligent systems', kw: /\b(machine learning|ai|computer vision|neural|object detection|edge ai|predictive)\b/i, hint: 'Vision, analytics and edge intelligence for engineered systems.', q: ['need', 'data'],
-      f: [fS('need', 'Use case', ['Computer vision', 'Predictive maintenance', 'Signal / sensor analytics', 'Edge AI deployment', 'Other']), fS('data', 'Data', ['Available', 'Needs collection', 'Not sure']), fS('deploy', 'Deployment', ['Edge device', 'Cloud', 'Not decided']), STAGE, WHEN, LINK, DESC] },
-    { id: 'mbd', g: 0, n: 'Model-based design & simulation', kw: /\b(simulink|model-?based|mbd|simulation|hil|sil|code generation|plant model)\b/i, hint: 'System modelling, controller design, simulation and verification.', q: ['tool', 'stage'],
-      f: [fC('services', 'Services needed', ['System modelling', 'Controller design', 'Simulation & verification', 'Automatic code generation', 'SIL / HIL testing']), fS('tool', 'Tooling', ['MATLAB / Simulink', 'Open-source (Modelica, Python)', 'No preference']), fT('domain', 'Domain (motor control, power, vehicle…)'), STAGE, WHEN, LINK, DESC] },
-    { id: 'prototype', g: 0, n: 'Prototyping & small batches', kw: /\b(prototype|prototyping|assembly|small batch|pilot run)\b/i, hint: 'Prototype builds and small-batch coordination.', q: ['qty', 'when'],
-      f: [fC('services', 'Services needed', ['PCB fabrication', 'Assembly', 'Enclosure', 'Functional test', 'Small batch']), QTY, fS('files', 'Existing material', ['Nothing yet', 'Schematic / drawings', 'Fabrication files', 'Full package']), WHEN, LINK, DESC] },
-    { id: 'test', g: 0, n: 'Testing & validation', kw: /\b(test plan|validation|testing|verification|reliability|emc|test fixture)\b/i, hint: 'Functional, reliability and pre-compliance testing, test fixtures.', q: ['stage', 'when'],
-      f: [fC('services', 'Services needed', ['Functional testing', 'Reliability testing', 'EMC pre-compliance', 'Test fixture design', 'Test automation']), fT('product', 'Product / standard concerned'), STAGE, WHEN, LINK, DESC] },
-    { id: 'review', g: 0, n: 'Design review & consulting', kw: /\b(design review|review my|consult|second opinion|audit)\b/i, hint: 'Independent review of schematics, layouts, firmware or architecture.', q: ['type', 'when'],
-      f: [fS('type', 'What should be reviewed', ['Schematic', 'PCB layout', 'Firmware', 'System architecture', 'General consulting']), fS('files', 'Material available', ['Schematic', 'Schematic + layout', 'Source code', 'Documentation only']), WHEN, LINK, DESC] },
-    { id: 'repair', g: 0, n: 'Debugging & repair', kw: /\b(debug|repair|not working|doesn'?t work|fault|burnt|short circuit|troubleshoot)\b/i, hint: 'Fault finding and repair review for boards and devices.', q: ['device', 'fault'],
-      f: [fT('device', 'Device / board'), fS('fault', 'Symptom', ['No power', 'Intermittent', 'Overheating', 'Communication fault', 'Wrong output', 'Other']), fS('docs', 'Schematics available', ['Yes', 'Partly', 'No']), LINK, DESC] },
-    { id: 'education', g: 1, n: 'Training & workshops', kw: /\b(training|workshop|course|teach|bootcamp|lecture)\b/i, hint: 'Technical workshops and engineering training.', q: ['audience', 'format'],
-      f: [fS('audience', 'Audience', ['University / students', 'Company team', 'Individual']), fT('topics', 'Topics of interest'), fS('size', 'Group size', ['1–10', '11–30', 'More than 30']), fS('format', 'Format', ['On-site', 'Online', 'Either']), WHEN, DESC] },
-    { id: 'student', g: 1, n: 'Student project & scholarship', kw: /\b(student|scholarship|graduation project|thesis|university project|capstone)\b/i, hint: 'Engineering support and the planned scholarship programme.', q: ['level', 'area'],
-      f: [fS('level', 'Applicant', ['Undergraduate', 'Graduate', 'Researcher', 'Startup team']), fT('inst', 'University / institution'), fS('area', 'Project area', AREAS), fS('need', 'What you need', ['Engineering support', 'Scholarship consideration', 'Mentoring']), BUDGET, LINK, DESC] },
-    { id: 'research', g: 1, n: 'Research collaboration', kw: /\b(research|paper|co-?author|lab|joint project|academic)\b/i, hint: 'Joint projects, research prototypes and testing.', q: ['org', 'type'],
-      f: [fT('org', 'Institution / lab', true), fS('type', 'Collaboration type', ['Joint project', 'Prototype for research', 'Testing / data', 'Publication']), fS('area', 'Field', AREAS), LINK, DESC] },
-    { id: 'careers', g: 2, n: 'Careers & hiring', kw: /\b(job|hiring|career|careers|cv|resume|intern|internship|vacancy|position|apply)\b/i, hint: 'Join DOT CORE. Share a link to your CV; attachments are not collected here.', q: ['area', 'link'],
-      f: [fS('area', 'Area of interest', AREAS, true), fS('level', 'Level', ['Intern', 'Junior', 'Mid-level', 'Senior', 'Lead']), fS('mode', 'Work mode', ['On-site (Cairo)', 'Hybrid', 'Remote']), fU('link', 'Portfolio / LinkedIn / GitHub', true), fU('cv', 'Link to your CV'), fA('desc', 'Short message', true)] },
-    { id: 'partnership', g: 2, n: 'Partnerships & agreements', kw: /\b(partner|partnership|collaborat|agreement|mou|sponsor|distribut|invest)\w*/i, hint: 'Technology, manufacturing, university and commercial partnerships.', q: ['org', 'type'],
-      f: [fT('org', 'Organisation', true), fS('type', 'Partnership type', ['Technology partner', 'Manufacturing partner', 'University', 'Distributor', 'Investor', 'Other']), fT('region', 'Country / region'), fU('web', 'Website'), fA('desc', 'Proposal in brief', true)] },
-    { id: 'supplier', g: 2, n: 'Suppliers & vendors', kw: /\b(supplier|vendor|we supply|our products|catalog(ue)?|quotation for you)\b/i, hint: 'Components, fabrication, assembly, tools and services.', q: ['company', 'offer'],
-      f: [fT('company', 'Company', true), fS('offer', 'What you offer', ['Components', 'PCB fabrication', 'Assembly', 'Tools & equipment', 'Software / services', 'Other']), fU('web', 'Website'), fA('desc', 'Details', true)] },
-    { id: 'events', g: 2, n: 'Events & speaking', kw: /\b(conference|event|speaker|keynote|exhibition|expo|summit|invite|invitation)\b/i, hint: 'Conferences, exhibitions, talks and sponsorship.', q: ['event', 'date'],
-      f: [fT('event', 'Event name', true), fS('role', 'Request', ['Speaker invitation', 'Exhibition', 'Workshop', 'Sponsorship', 'Other']), fT('date', 'Date'), fT('place', 'Location / online'), fU('web', 'Event website'), fA('desc', 'Details', true)] },
-    { id: 'press', g: 2, n: 'Press & media', kw: /\b(press|journalist|interview|media|article|magazine)\b/i, hint: 'Interviews, features and statements.', q: ['outlet', 'type'],
-      f: [fT('outlet', 'Outlet / publication', true), fS('type', 'Request', ['Interview', 'Feature', 'Statement', 'Other']), fD('deadline', 'Deadline'), fA('desc', 'Request details', true)] },
-    { id: 'complaint', g: 2, n: 'Complaint', kw: /\b(complain|complaint|refund|unhappy|dissatisf|not satisfied|unacceptable|escalat)\w*/i, hint: 'Report a problem with our work or conduct. Your complaint will be reviewed in confidence.', q: ['nature', 'ref'],
-      f: [fS('nature', 'Nature of the complaint', ['Quality of work', 'Delay', 'Communication', 'Billing', 'Conduct', 'Data / IP concern', 'Other'], true), fT('ref', 'Project / reference (if any)'), fD('date', 'When it happened'), fS('outcome', 'Outcome you expect', ['Correction of the work', 'Explanation', 'Refund / adjustment', 'Process improvement', 'Not sure']), fA('desc', 'What happened', true)] },
-    { id: 'general', g: 2, n: 'General inquiry', kw: null, hint: 'Anything else.', q: [], f: [fA('desc', 'Your message', true)] }
-  ];
-  var GROUPS = ['Engineering services', 'Programs', 'Company'], CBY = {}; CATS.forEach(function (c) { CBY[c.id] = c; });
-  function esc(s) { return String(s).replace(/[&<>"]/g, function (m) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]; }); }
-  function fieldHTML(f, pre, req) {
-    var id = pre + f.k, r = (f.r || req) ? ' required' : '', lab = '<label for="' + id + '">' + esc(f.l) + (f.r ? ' *' : '') + '</label>';
-    if (f.t === 'select') return '<div class="field">' + lab + '<select id="' + id + '" name="' + f.k + '"' + r + '><option value="">Select…</option>' + f.o.map(function (o) { return '<option>' + esc(o) + '</option>'; }).join('') + '</select></div>';
-    if (f.t === 'checks') return '<fieldset class="field full checks"><legend>' + esc(f.l) + '</legend><div class="opts">' + f.o.map(function (o) { return '<label><input type="checkbox" name="' + f.k + '" value="' + esc(o) + '"><span>' + esc(o) + '</span></label>'; }).join('') + '</div></fieldset>';
-    if (f.t === 'area') return '<div class="field full">' + lab + '<textarea id="' + id + '" name="' + f.k + '"' + r + '></textarea></div>';
-    return '<div class="field">' + lab + '<input id="' + id + '" name="' + f.k + '" type="' + f.t + '"' + r + (f.t === 'url' ? ' inputmode="url" placeholder="https://"' : '') + '></div>';
-  }
-  function collect(root, cat, keys) {
-    var out = [], seen = {};
-    cat.f.forEach(function (f) {
-      if (keys && keys.indexOf(f.k) < 0) return; if (seen[f.k]) return; seen[f.k] = 1;
-      if (f.t === 'checks') { var v = $$('input[name="' + f.k + '"]:checked', root).map(function (x) { return x.value; }); if (v.length) out.push([f.l, v.join(', ')]); }
-      else { var el = $('[name="' + f.k + '"]', root); if (el && el.value.trim()) out.push([f.l, el.value.trim()]); }
-    });
-    return out;
-  }
-  function deliver(cat, who, rows, source, ui) {
-    var subject = '[DOT CORE] ' + cat.n + (who.name ? ' — ' + who.name : ' — ' + who.email);
-    var lines = ['Request type: ' + cat.n, 'Source: ' + source, 'Name: ' + (who.name || '-'), 'Email: ' + who.email];
-    if (who.org) lines.push('Organisation: ' + who.org);
-    lines.push(''); rows.forEach(function (r) { lines.push(r[0] + ': ' + r[1]); });
-    if (FORM_ENDPOINT) {
-      ui.busy(true); ui.say('Sending…');
-      fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ subject: subject, type: cat.n, source: source, name: who.name, email: who.email, organization: who.org || '', details: rows.map(function (r) { return r[0] + ': ' + r[1]; }).join('\n') }) })
-        .then(function (r) { if (!r.ok) throw 0; ui.done(); ui.say('Thank you. Your message was sent.'); })
-        .catch(function () { ui.say('Could not send. Please email ' + CONTACT_EMAIL + ' directly.', true); })
-        .then(function () { ui.busy(false); });
-    } else {
-      ui.say('Opening your email app…');
-      window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
-    }
-  }
-  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  /* --- detailed specialty forms --- */
-  var forms = $('#forms'), form = $('#form'), curCat = 'pcb';
-  function renderForm(id, keep) {
-    if (!form) return; var cat = CBY[id] || CBY.pcb; curCat = cat.id;
-    var kept = {}; ['name', 'email', 'org'].forEach(function (k) { var el = $('[name="' + k + '"]', form); if (el) kept[k] = el.value; });
-    $$('#cats .cat').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-id') === cat.id ? 'true' : 'false'); });
-    form.innerHTML =
-      '<p class="fdesc"><b>' + esc(cat.n) + '.</b> ' + esc(cat.hint) + '</p><div class="fgrid">' +
-      '<div class="field"><label for="f-name">Name *</label><input id="f-name" name="name" autocomplete="name" required></div>' +
-      '<div class="field"><label for="f-email">Email *</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>' +
-      '<div class="field"><label for="f-org">Company / university</label><input id="f-org" name="org" autocomplete="organization"></div>' +
-      cat.f.map(function (f) { return fieldHTML(f, 'f-'); }).join('') + '</div>' +
-      '<input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">' +
-      '<label class="consent"><input type="checkbox" name="consent" required><span>I agree that DOT CORE may use these details to reply to this request. <a href="privacy.html">Privacy policy</a></span></label>' +
-      '<p class="status" id="status" role="status" aria-live="polite"></p>' +
-      '<button class="submit" id="submit" type="submit"><span>Send request</span><b aria-hidden="true">↗</b></button>';
-    Object.keys(kept).forEach(function (k) { var el = $('[name="' + k + '"]', form); if (el && kept[k]) el.value = kept[k]; });
-  }
-  if (form) {
-    var cats = $('#cats'), html = '';
-    GROUPS.forEach(function (g, gi) { html += '<p class="mono mute cathead">' + g + '</p><div class="catrow">' + CATS.filter(function (c) { return c.g === gi; }).map(function (c) { return '<button type="button" class="cat" data-id="' + c.id + '" aria-pressed="false">' + esc(c.n) + '</button>'; }).join('') + '</div>'; });
-    cats.innerHTML = html;
-    cats.addEventListener('click', function (e) { var b = e.target.closest('.cat'); if (b) renderForm(b.getAttribute('data-id')); });
-    renderForm('pcb');
-    form.addEventListener('submit', function (e) {
-      e.preventDefault(); var st = $('#status', form), btn = $('#submit', form), cat = CBY[curCat], fd = new FormData(form);
-      function say(m, bad) { st.textContent = m; st.classList.toggle('err', !!bad); }
-      if (fd.get('website')) return;
-      var name = (fd.get('name') || '').trim(), email = (fd.get('email') || '').trim();
-      if (!name) return say('Please add your name.', true);
-      if (!EMAIL_RE.test(email)) return say('Please enter a valid email address.', true);
-      var miss = cat.f.filter(function (f) { if (!f.r) return false; var el = $('[name="' + f.k + '"]', form); return !el || !el.value.trim(); })[0];
-      if (miss) return say('Please complete: ' + miss.l + '.', true);
-      if (!fd.get('consent')) return say('Please confirm the consent box.', true);
-      deliver(cat, { name: name, email: email, org: (fd.get('org') || '').trim() }, collect(form, cat), 'Request form', { say: say, busy: function (b) { btn.disabled = b; }, done: function () { renderForm(curCat); } });
-    });
-  }
-
-  /* --- contact box: purpose-based simple fields, never blocks sending --- */
-  var qb = $('#quick');
-  if (qb) {
+  /* ---------------- contact box (index): purpose-based simple fields, never blocks sending ---------------- */
+  var qb = $('#quick'), R = window.DCR;
+  if (qb && R) {
+    var CATS = R.CATS, CBY = R.CBY, esc = R.esc;
     var qsel = $('#q-purpose'), qdyn = $('#q-dyn'), qmsg = $('#q-msg'), qhint = $('#q-hint'), qst = $('#q-status'), qbtn = $('.qsend', qb), qtimer;
     var og = '<option value="">Choose a purpose…</option>';
-    GROUPS.forEach(function (g, gi) { og += '<optgroup label="' + g + '">' + CATS.filter(function (c) { return c.g === gi; }).map(function (c) { return '<option value="' + c.id + '">' + esc(c.n) + '</option>'; }).join('') + '</optgroup>'; });
+    R.GROUPS.forEach(function (g, gi) { og += '<optgroup label="' + g + '">' + CATS.filter(function (c) { return c.g === gi; }).map(function (c) { return '<option value="' + c.id + '">' + esc(c.n) + '</option>'; }).join('') + '</optgroup>'; });
     qsel.innerHTML = og;
     var qsay = function (m, bad) { qst.textContent = m; qst.classList.toggle('err', !!bad); };
     function qRender() {
       var cat = CBY[qsel.value], h = '<div class="field"><label for="q-name">Name</label><input id="q-name" name="name" autocomplete="name"></div><div class="field"><label for="q-email">Email *</label><input id="q-email" name="email" type="email" autocomplete="email" required></div>';
-      if (cat) cat.q.forEach(function (k) { var f = cat.f.filter(function (x) { return x.k === k; })[0]; if (f) h += fieldHTML(f, 'q-'); });
+      if (cat) cat.q.forEach(function (k) { var f = R.field(cat, k); if (f) h += R.fieldHTML(f, 'q-'); });
       var keepN = $('#q-name') ? $('#q-name').value : '', keepE = $('#q-email') ? $('#q-email').value : '';
       qdyn.innerHTML = h; $('#q-name').value = keepN; $('#q-email').value = keepE;
       $$('#disc .tile').forEach(function (t) { t.setAttribute('aria-pressed', t.getAttribute('data-spec') === qsel.value ? 'true' : 'false'); });
       qHint();
     }
+    function reqUrl(id) { var p = new URLSearchParams(); p.set('type', id); var n = $('#q-name').value.trim(), e = $('#q-email').value.trim(); if (n) p.set('name', n); if (e) p.set('email', e); return 'request.html?' + p.toString(); }
     function qHint() {
       var cur = CBY[qsel.value], txt = qmsg.value, guess = null, out = '';
       if (txt.length > 12) CATS.forEach(function (c) { if (!guess && c.kw && c.kw.test(txt) && c.id !== qsel.value) guess = c; });
-      if (guess) out = 'This sounds like <b>' + esc(guess.n) + '</b>. <button type="button" data-switch="' + guess.id + '">Use this purpose</button> <button type="button" data-open="' + guess.id + '">Open the ' + esc(guess.n) + ' form</button> You can also send your message as written.';
-      else if (cur && cur.id !== 'general') out = 'Need to give more detail? The <b>' + esc(cur.n) + '</b> form asks what our engineers need to reply faster. <button type="button" data-open="' + cur.id + '">Open the form</button> Or send from here as it is.';
+      if (guess) out = 'This sounds like <b>' + esc(guess.n) + '</b>. <button type="button" data-switch="' + guess.id + '">Use this purpose</button> <a href="' + reqUrl(guess.id) + '">Open the full request form</a> You can also send your message as written.';
+      else if (cur && cur.id !== 'general') out = 'Need to give more detail? The full <b>' + esc(cur.n) + '</b> request form asks what our engineers need to reply faster. <a href="' + reqUrl(cur.id) + '">Open the full form</a> Or send from here as it is.';
       qhint.hidden = !out; qhint.innerHTML = out;
     }
     qsel.addEventListener('change', qRender);
     qmsg.addEventListener('input', function () { clearTimeout(qtimer); qtimer = setTimeout(qHint, 350); });
+    qdyn.addEventListener('input', function () { clearTimeout(qtimer); qtimer = setTimeout(qHint, 350); });
     qhint.addEventListener('click', function (e) {
-      var b = e.target.closest('button'); if (!b) return;
-      if (b.hasAttribute('data-switch')) { qsel.value = b.getAttribute('data-switch'); qRender(); }
-      else if (b.hasAttribute('data-open')) { renderForm(b.getAttribute('data-open')); var em = $('#q-email').value, nm = $('#q-name').value; if (em) $('#f-email').value = em; if (nm) $('#f-name').value = nm; forms.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); }
+      var b = e.target.closest('button[data-switch]'); if (b) { qsel.value = b.getAttribute('data-switch'); qRender(); }
     });
     $$('#disc .tile').forEach(function (t) {
       t.addEventListener('click', function () { qsel.value = t.getAttribute('data-spec'); qRender(); qmsg.focus({ preventScroll: true }); });
     });
+    R.bindOther(qdyn);
     qRender();
     qb.addEventListener('submit', function (e) {
       e.preventDefault(); if ($('[name="website"]', qb).value) return;
       var cat = CBY[qsel.value], email = $('#q-email').value.trim(), msg = qmsg.value.trim();
       if (!cat) return qsay('Please choose what this is about.', true);
-      if (!EMAIL_RE.test(email)) return qsay('Please enter a valid email address.', true);
+      if (!R.EMAIL_RE.test(email)) return qsay('Please enter a valid email address.', true);
       if (!msg) return qsay('Please write a short message.', true);
-      var rows = collect(qdyn, cat, cat.q); rows.push(['Message', msg]);
-      deliver(cat, { name: $('#q-name').value.trim(), email: email }, rows, 'Contact box', { say: qsay, busy: function (b) { qbtn.disabled = b; }, done: function () { qmsg.value = ''; qRender(); } });
+      var rows = R.collect(qdyn, R.allFields(cat), cat.q); rows.push(['Message', msg]);
+      var who = { name: $('#q-name').value.trim(), email: email }, ref = R.refId();
+      var text = R.summaryText(cat, ref, [{ title: 'Contact', rows: [['Name', who.name || '-'], ['Email', email]] }, { title: 'Details', rows: rows }]);
+      R.deliver(cat, who, ref, text, 'Contact box', { say: qsay, busy: function (b) { qbtn.disabled = b; }, done: function () { qmsg.value = ''; qRender(); } });
     });
   }
+  var fl = $('#fl');
+  if (fl && window.DCR) fl.innerHTML = window.DCR.CATS.map(function (c) { return '<li><a href="request.html?type=' + c.id + '"><span>' + window.DCR.esc(c.n) + '</span><b aria-hidden="true">→</b></a></li>'; }).join('');
 })();
