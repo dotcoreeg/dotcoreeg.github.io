@@ -140,22 +140,24 @@
     groups.forEach(function (g) { if (!g.rows.length) return; L.push('== ' + g.title.toUpperCase() + ' =='); g.rows.forEach(function (r) { L.push(r[0] + ': ' + r[1]); }); L.push(''); });
     return L.join('\n');
   }
-  /* delivery: endpoint (if configured) or the visitor's email app; long summaries are copied to the clipboard as well */
+  /* delivery: endpoint first; if it fails (quota, network, blocked) fall back to the visitor's email app so nothing is lost */
+  function viaMail(cat, who, ref, subject, text, ui, failed) {
+    var cfg = window.DC || {}, body = text, long = text.length > 1700;
+    try { if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {}); } catch (e) {}
+    if (long) body = 'Reference: ' + ref + '\nType: ' + cat.n + '\n\nThe full request summary was copied to your clipboard. Please paste it here before sending.\n';
+    ui.say((failed ? 'Our form service is unavailable right now. ' : '') + (long ? 'Opening your email app. The full summary is copied: paste it into the message.' : 'Opening your email app with your request ready to send.'), !!failed);
+    if (ui.fallback) ui.fallback(text, cfg.EMAIL);
+    window.location.href = 'mailto:' + cfg.EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    if (ui.done) ui.done(true);
+  }
   function deliver(cat, who, ref, text, source, ui) {
     var cfg = window.DC || {}, subject = '[DOT CORE] ' + ref + ' · ' + cat.n + ' · ' + (who.name || who.email);
-    if (cfg.ENDPOINT) {
-      ui.busy(true); ui.say('Sending…');
-      fetch(cfg.ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ subject: subject, reference: ref, type: cat.n, source: source, name: who.name, email: who.email, message: text, _replyto: who.email }) })
-        .then(function (r) { if (!r.ok) throw 0; ui.say('Thank you. Your request ' + ref + ' was sent.'); ui.done(); })
-        .catch(function () { ui.say('Could not send. Copy the summary and email ' + cfg.EMAIL + '.', true); })
-        .then(function () { ui.busy(false); });
-    } else {
-      var body = text, long = text.length > 1700;
-      if (long) { try { navigator.clipboard.writeText(text); } catch (e) {} body = 'Reference: ' + ref + '\nType: ' + cat.n + '\n\nThe full request summary was copied to your clipboard. Please paste it here before sending.\n'; }
-      ui.say(long ? 'Opening your email app. The full summary is copied: paste it into the message.' : 'Opening your email app…');
-      window.location.href = 'mailto:' + cfg.EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      if (ui.done) ui.done(true);
-    }
+    if (!cfg.ENDPOINT) return viaMail(cat, who, ref, subject, text, ui, false);
+    ui.busy(true); ui.say('Sending…');
+    var ctl = window.AbortController ? new AbortController() : null, to = setTimeout(function () { if (ctl) ctl.abort(); }, 15000);
+    fetch(cfg.ENDPOINT, { method: 'POST', signal: ctl ? ctl.signal : undefined, headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ subject: subject, reference: ref, type: cat.n, source: source, name: who.name, email: who.email, message: text, _replyto: who.email }) })
+      .then(function (r) { if (!r.ok) throw 0; clearTimeout(to); ui.busy(false); ui.say('Thank you. Your request ' + ref + ' was sent. Keep this reference for follow-up.'); ui.done(); })
+      .catch(function () { clearTimeout(to); ui.busy(false); viaMail(cat, who, ref, subject, text, ui, true); });
   }
   window.DCR = { CATS: CATS, GROUPS: GROUPS, CBY: CBY, sections: sections, allFields: allFields, field: field, esc: esc, fieldHTML: fieldHTML, collect: collect, bindOther: bindOther, EMAIL_RE: EMAIL_RE, refId: refId, summaryText: summaryText, deliver: deliver };
 })();

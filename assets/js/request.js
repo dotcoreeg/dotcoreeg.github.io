@@ -81,7 +81,7 @@
     if (!validate()) return;
     var g = groups(), ref = R.refId(), name = (form.querySelector('[name="name"]') || {}).value || '', email = form.querySelector('[name="email"]').value.trim();
     var text = R.summaryText(cur, ref, g), btn = form.querySelector('.qsend');
-    R.deliver(cur, { name: name.trim(), email: email }, ref, text, 'Request form', { say: say, busy: function (b) { btn.disabled = b; }, done: function (mail) { if (!mail) { clearDraft(); form.reset(); } } });
+    R.deliver(cur, { name: name.trim(), email: email }, ref, text, 'Request form', { say: say, fallback: function (t, em) { var o = $('#rq-sum'); o.hidden = false; o.innerHTML = '<p>If your email app did not open, copy this text and send it to <b>' + R.esc(em) + '</b>:</p><textarea readonly rows="8" style="width:100%">' + R.esc(t) + '</textarea>'; }, busy: function (b) { btn.disabled = b; }, done: function (mail) { if (!mail) { clearDraft(); form.reset(); } } });
   });
 
   open(qs.get('type') || 'pcb', false);
