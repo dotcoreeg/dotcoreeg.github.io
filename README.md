@@ -36,3 +36,9 @@ Optional real footage: `assets/video/network.mp4` (Partners header, muted loop, 
 
 ## Team
 Leadership = Founder & CEO + one head per Core (PCB, Embedded, Robotics, Automation). Replace names, roles and photos; unannounced Cores can keep "Placeholder" until the lead is confirmed.
+
+## Contact box and request forms
+Config lives at the top of the "request routing" block in `assets/js/main.js` (`CATS`). Each entry = one purpose: name, hint, keyword regex (drives the suggestion shown under the contact box), `q` (the few fields the box asks for) and `f` (the full form fields). Add or remove purposes there; the select, tiles-to-purpose link and forms update automatically.
+Purposes: 14 engineering services, 3 programs, 7 company (careers, partnerships, suppliers, events, press, complaint, general). The box never blocks sending; it only suggests the matching form.
+Set `FORM_ENDPOINT` so messages arrive by email directly; otherwise they open in the visitor's email app.
+Review the wording of the Complaint and Careers hints before publishing (they describe how you handle them).
