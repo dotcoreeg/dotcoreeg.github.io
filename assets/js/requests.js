@@ -154,20 +154,24 @@
     var ctl = window.AbortController ? new AbortController() : null, to = setTimeout(function () { if (ctl) ctl.abort(); }, 15000);
     /* Apps Script needs a "simple" request (text/plain) to avoid a CORS preflight */
     var h = plain ? { 'Content-Type': 'text/plain;charset=utf-8' } : { 'Content-Type': 'application/json', 'Accept': 'application/json' };
-    return fetch(url, { method: 'POST', signal: ctl ? ctl.signal : undefined, headers: h, body: JSON.stringify(payload) })
+    return fetch(url, { method: 'POST', signal: ctl ? ctl.signal : undefined, keepalive: true, headers: h, body: JSON.stringify(payload) })
       .then(function (r) { clearTimeout(to); if (!r.ok) throw 0; return plain ? r.json() : r; })
       .then(function (x) { if (plain && !(x && x.ok)) throw 0; }, function (err) { clearTimeout(to); throw err; });
   }
-  /* order: Formspree -> Apps Script backup -> visitor's email app */
+  /* Every send is logged to the Google Sheet (Started -> result). Order: Formspree -> Apps Script backup -> visitor's email app */
   function deliver(cat, who, ref, text, source, ui) {
     var cfg = window.DC || {}, subject = '[DOT CORE] ' + ref + ' · ' + cat.n + ' · ' + (who.name || who.email);
     if (!cfg.ENDPOINT && !cfg.BACKUP_ENDPOINT) return viaMail(cat, who, ref, subject, text, ui, false);
     var payload = { subject: subject, reference: ref, type: cat.n, source: source, name: who.name, email: who.email, message: text, _replyto: who.email };
-    var ok = function () { ui.busy(false); ui.say('Thank you. Your request ' + ref + ' was sent. Keep this reference for follow-up.'); ui.done(); };
-    var mail = function () { ui.busy(false); viaMail(cat, who, ref, subject, text, ui, true); };
+    /* also send every answer as its own field so Formspree lists them separately and the dashboard / CSV export stay structured */
+    var sec = ''; text.split('\n').forEach(function (ln) { var m = /^== (.+) ==$/.exec(ln); if (m) { sec = m[1]; return; } var k = /^([^:]{1,80}): (.+)$/.exec(ln); if (k && sec) { var key = sec + ' / ' + k[1]; if (!(key in payload)) payload[key] = k[2]; } });
+    var log = function (action) { if (!cfg.BACKUP_ENDPOINT) return Promise.resolve(); var p = {}; for (var k in payload) p[k] = payload[k]; p.action = action; return post(cfg.BACKUP_ENDPOINT, p, true).catch(function () {}); };
+    var ok = function (how) { return function () { if (how) log(how); ui.busy(false); ui.say('Thank you. Your request ' + ref + ' was sent. Keep this reference for follow-up.'); ui.done(); }; };
+    var mail = function () { log('failed'); ui.busy(false); viaMail(cat, who, ref, subject, text, ui, true); };
     ui.busy(true); ui.say('Sending…');
-    var backup = function () { if (!cfg.BACKUP_ENDPOINT) return mail(); post(cfg.BACKUP_ENDPOINT, payload, true).then(ok, mail); };
-    if (cfg.ENDPOINT) post(cfg.ENDPOINT, payload, false).then(ok, backup); else backup();
+    log('log');                                                               /* 1. recorded as "Started" */
+    var backup = function () { if (!cfg.BACKUP_ENDPOINT) return mail(); post(cfg.BACKUP_ENDPOINT, Object.assign({ action: 'deliver' }, payload), true).then(ok(null), mail); };
+    if (cfg.ENDPOINT) post(cfg.ENDPOINT, payload, false).then(ok('formspree_ok'), backup); else backup();
   }
   window.DCR = { CATS: CATS, GROUPS: GROUPS, CBY: CBY, sections: sections, allFields: allFields, field: field, esc: esc, fieldHTML: fieldHTML, collect: collect, bindOther: bindOther, EMAIL_RE: EMAIL_RE, refId: refId, summaryText: summaryText, deliver: deliver };
 })();

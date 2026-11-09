@@ -1,16 +1,28 @@
-# Backup receiver (Google Apps Script)
+# Request log + backup receiver (Google Apps Script)
 
-Used automatically when Formspree fails (quota reached, outage). Every request is logged to a Google Sheet and emailed to you.
+Every request sent from the website is recorded in a Google Sheet, whatever happens to it afterwards.
 
-1. Create a new Google Sheet named **DOT CORE Requests** (with dot.core.eg@gmail.com).
-2. Menu **Extensions → Apps Script**. Delete the sample code, paste the contents of `Code.gs`, save.
-3. **Deploy → New deployment → Type: Web app**
-   - Execute as: **Me**
-   - Who has access: **Anyone**
-4. Authorise when asked (Google shows an "unverified app" warning for your own script: Advanced → Go to project).
-5. Copy the **Web app URL** (ends with `/exec`) and paste it into `assets/js/config.js` as `BACKUP_ENDPOINT`.
-6. After any later code change: **Deploy → Manage deployments → Edit → New version**. The URL stays the same.
+## What the sheet shows
+**Requests** (all requests, one row per reference `DC-YYMM-XXXX`)
+| Status | Meaning |
+|---|---|
+| Started | The visitor pressed Send; no result was recorded (e.g. the page was closed) |
+| Delivered: Formspree | Formspree accepted it; Formspree emailed you |
+| Delivered: Backup (email sent) | Formspree failed; this script emailed you |
+| Failed: visitor email app | Formspree and this script both failed; the visitor's email app was opened and the visitor must press Send |
 
-Test: open the URL in a browser; it should show `{"ok":true,"service":"DOT CORE request receiver"}`.
+**Failed**: a copy of every request that did not reach you through the website itself (grey rows). Follow these up first.
 
-Limits: Gmail accounts can send roughly 100 emails/day through Apps Script; the Sheet logging has no such limit, so nothing is lost even if emails stop.
+## Setup / update
+1. Open the Google Sheet **DOT CORE Requests** → Extensions → Apps Script.
+2. Replace the code with `Code.gs`, save.
+3. **Deploy → Manage deployments → pencil icon → Version: New version → Deploy.** The URL stays the same. (First time: Deploy → New deployment → Web app, Execute as: Me, Access: Anyone.)
+4. If the script asks for permission, accept it (Advanced → Go to project).
+5. The `/exec` URL goes in `assets/js/config.js` as `BACKUP_ENDPOINT`.
+
+Test: open the URL in a browser; it shows `{"ok":true,"service":"DOT CORE request receiver"}`.
+
+## Notes
+- Old rows from earlier tests used a different column layout; delete the old `Requests` sheet tab before the first run so the new headers are created.
+- If the visitor's browser is offline, nothing can be logged. That is the one case no website code can record.
+- Gmail sends about 100 script emails per day; sheet logging has no such limit.
