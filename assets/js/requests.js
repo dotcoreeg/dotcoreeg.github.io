@@ -150,14 +150,24 @@
     window.location.href = 'mailto:' + cfg.EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     if (ui.done) ui.done(true);
   }
+  function post(url, payload, plain) {
+    var ctl = window.AbortController ? new AbortController() : null, to = setTimeout(function () { if (ctl) ctl.abort(); }, 15000);
+    /* Apps Script needs a "simple" request (text/plain) to avoid a CORS preflight */
+    var h = plain ? { 'Content-Type': 'text/plain;charset=utf-8' } : { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+    return fetch(url, { method: 'POST', signal: ctl ? ctl.signal : undefined, headers: h, body: JSON.stringify(payload) })
+      .then(function (r) { clearTimeout(to); if (!r.ok) throw 0; return plain ? r.json() : r; })
+      .then(function (x) { if (plain && !(x && x.ok)) throw 0; }, function (err) { clearTimeout(to); throw err; });
+  }
+  /* order: Formspree -> Apps Script backup -> visitor's email app */
   function deliver(cat, who, ref, text, source, ui) {
     var cfg = window.DC || {}, subject = '[DOT CORE] ' + ref + ' · ' + cat.n + ' · ' + (who.name || who.email);
-    if (!cfg.ENDPOINT) return viaMail(cat, who, ref, subject, text, ui, false);
+    if (!cfg.ENDPOINT && !cfg.BACKUP_ENDPOINT) return viaMail(cat, who, ref, subject, text, ui, false);
+    var payload = { subject: subject, reference: ref, type: cat.n, source: source, name: who.name, email: who.email, message: text, _replyto: who.email };
+    var ok = function () { ui.busy(false); ui.say('Thank you. Your request ' + ref + ' was sent. Keep this reference for follow-up.'); ui.done(); };
+    var mail = function () { ui.busy(false); viaMail(cat, who, ref, subject, text, ui, true); };
     ui.busy(true); ui.say('Sending…');
-    var ctl = window.AbortController ? new AbortController() : null, to = setTimeout(function () { if (ctl) ctl.abort(); }, 15000);
-    fetch(cfg.ENDPOINT, { method: 'POST', signal: ctl ? ctl.signal : undefined, headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ subject: subject, reference: ref, type: cat.n, source: source, name: who.name, email: who.email, message: text, _replyto: who.email }) })
-      .then(function (r) { if (!r.ok) throw 0; clearTimeout(to); ui.busy(false); ui.say('Thank you. Your request ' + ref + ' was sent. Keep this reference for follow-up.'); ui.done(); })
-      .catch(function () { clearTimeout(to); ui.busy(false); viaMail(cat, who, ref, subject, text, ui, true); });
+    var backup = function () { if (!cfg.BACKUP_ENDPOINT) return mail(); post(cfg.BACKUP_ENDPOINT, payload, true).then(ok, mail); };
+    if (cfg.ENDPOINT) post(cfg.ENDPOINT, payload, false).then(ok, backup); else backup();
   }
   window.DCR = { CATS: CATS, GROUPS: GROUPS, CBY: CBY, sections: sections, allFields: allFields, field: field, esc: esc, fieldHTML: fieldHTML, collect: collect, bindOther: bindOther, EMAIL_RE: EMAIL_RE, refId: refId, summaryText: summaryText, deliver: deliver };
 })();
